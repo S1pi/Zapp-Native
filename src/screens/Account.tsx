@@ -1,6 +1,7 @@
 import {Pressable, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useUserContext} from '../hooks/ContextHooks';
+import CustomButton from '../components/CustomButton';
 
 const Account = () => {
   const {user, handleLogout} = useUserContext();
@@ -8,14 +9,7 @@ const Account = () => {
   return (
     <SafeAreaView>
       <Text>Account</Text>
-      <Pressable
-        onPress={() => {
-          handleLogout();
-        }}
-        className="text-2xl p-4 m-4 bg-blue-500 rounded-lg"
-      >
-        <Text className="">Logout</Text>
-      </Pressable>
+      <CustomButton onPress={handleLogout}>Logout</CustomButton>
     </SafeAreaView>
   );
 };
