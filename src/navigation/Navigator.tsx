@@ -20,12 +20,67 @@ const TabScreen = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#093331', // taustaväri
+          borderTopWidth: 0, // poistaa yläreunan
+          shadowColor: '#000',
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          elevation: 5, // Android-varjostus
+        },
+        tabBarActiveTintColor: '#1af3cf', // aktiivisen ikonin väri
+        tabBarInactiveTintColor: '#f9fcfa', // ei-aktiivisen ikonin väri
       }}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Account" component={Account} />
       <Tab.Screen name="History" component={History} />
     </Tab.Navigator>
+  );
+};
+
+const AuthStack = createNativeStackNavigator();
+
+const AuthStackScreen = () => {
+  return (
+    <AuthStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <AuthStack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{headerShown: false}}
+      />
+
+      <AuthStack.Screen
+        name="Login"
+        component={Login}
+        options={{title: 'Kirjaudu sisään'}}
+      />
+
+      <AuthStack.Screen
+        name="RegisterStep1"
+        component={RegisterStep1}
+        options={{title: 'Rekisteröidy (1/4)'}}
+      />
+      <AuthStack.Screen
+        name="RegisterStep2"
+        component={RegisterStep2}
+        options={{title: 'Rekisteröidy (2/4)'}}
+      />
+      <AuthStack.Screen
+        name="RegisterStep3"
+        component={RegisterStep3}
+        options={{title: 'Rekisteröidy (3/4)'}}
+      />
+      <AuthStack.Screen
+        name="RegisterStep4"
+        component={RegisterStep4}
+        options={{title: 'Rekisteröidy (4/4)'}}
+      />
+    </AuthStack.Navigator>
   );
 };
 
@@ -56,52 +111,4 @@ const Navigator = () => {
   );
 };
 
-const AuthStack = createNativeStackNavigator();
-
-const AuthStackScreen = () => {
-  return (
-    <AuthStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {/* Aloitetaan Welcome-näytöstä */}
-      <AuthStack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{headerShown: false}}
-      />
-
-      {/* Kirjautumisnäkymä */}
-      <AuthStack.Screen
-        name="Login"
-        component={Login}
-        options={{title: 'Kirjaudu sisään'}}
-      />
-
-      {/* Rekisteröinnin eri vaiheet */}
-      <AuthStack.Screen
-        name="RegisterStep1"
-        component={RegisterStep1}
-        options={{title: 'Rekisteröidy (1/4)'}}
-      />
-      <AuthStack.Screen
-        name="RegisterStep2"
-        component={RegisterStep2}
-        options={{title: 'Rekisteröidy (2/4)'}}
-      />
-      <AuthStack.Screen
-        name="RegisterStep3"
-        component={RegisterStep3}
-        options={{title: 'Rekisteröidy (3/4)'}}
-      />
-      <AuthStack.Screen
-        name="RegisterStep4"
-        component={RegisterStep4}
-        options={{title: 'Rekisteröidy (4/4)'}}
-      />
-    </AuthStack.Navigator>
-  );
-};
-
-export {Navigator, AuthStackScreen};
+export {Navigator};

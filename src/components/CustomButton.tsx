@@ -1,32 +1,50 @@
-import {Pressable, PressableProps, Text} from 'react-native';
+import React from 'react';
+import {Text, Pressable, PressableProps} from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface CustomButtonProps extends PressableProps {
-  defaultClassName?: string;
-  className?: string;
-  defaultTextClassName?: string;
-  textClassName?: string;
   children: React.ReactNode;
+  className?: string;
+  color?: string;
+  textClassName?: string;
 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 const CustomButton = ({
-  defaultClassName = 'bg-blue-500 p-2 rounded-lg w-auto m-auto active:bg-blue-700 ',
-  className = '',
-  defaultTextClassName = 'text-2xl text-white m-auto',
-  textClassName = '',
   children,
+  className = '',
+  textClassName = 'text-primary m-auto text-lg',
   ...props
 }: CustomButtonProps) => {
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: scale.value}],
+  }));
+
+  const handlePressIn = () => {
+    scale.value = withTiming(0.95, {duration: 100});
+  };
+
+  const handlePressOut = () => {
+    scale.value = withTiming(1, {duration: 100});
+  };
+
   return (
-    <Pressable className={`${defaultClassName} ${className}`} {...props}>
-      {({pressed}) => (
-        <Text
-          suppressHighlighting={true}
-          className={`${defaultTextClassName} ${textClassName} ${pressed ? 'opacity-70' : 'opacity-100'}`}
-        >
-          {children}
-        </Text>
-      )}
-    </Pressable>
+    <AnimatedPressable
+      className={`p-2 rounded-3xl w-72 h-12 ${className}`}
+      style={animatedStyle}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      {...props}
+    >
+      <Text className={textClassName}>{children}</Text>
+    </AnimatedPressable>
   );
 };
 

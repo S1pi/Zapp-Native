@@ -1,22 +1,35 @@
+import React from 'react';
+import {View, Text, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Pressable, Text, View} from 'react-native';
 import {AuthScreenNavigationProp} from '../../navigation/types';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomButton from '../../components/CustomButton';
 
 const RegisterStep3 = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
 
   return (
-    <SafeAreaView>
-      <Text>RegisterStep3 Form</Text>
-      <Pressable
-        onPress={() => {
-          navigation.navigate('RegisterStep4');
-        }}
-        className="text-2xl p-4 m-4 bg-blue-500 text-white rounded-lg"
+    <SafeAreaView className="flex-1 bg-white p-4">
+      <View className="flex-row justify-center my-4">
+        <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
+        <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
+        <View className="w-8 h-8 rounded-full bg-seabed-green mx-1" />
+        <View className="w-8 h-8 rounded-full bg-seperator-line mx-1" />
+      </View>
+
+      <Text className="text-2xl font-bold text-center mb-4">
+        Tunnistautuminen
+      </Text>
+
+      <View className="items-center mb-8">
+        <Text className="text-base text-center">Ajokorttikuvat</Text>
+      </View>
+
+      <CustomButton
+        className="bg-secondary mx-auto"
+        onPress={() => navigation.navigate('RegisterStep4')}
       >
-        <Text>Submit</Text>
-      </Pressable>
+        <Text>Seuraava</Text>
+      </CustomButton>
     </SafeAreaView>
   );
 };

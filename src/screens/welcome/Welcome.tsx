@@ -1,27 +1,28 @@
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthScreenNavigationProp} from '../../navigation/types';
+import CustomButton from '../../components/CustomButton';
 
 const Welcome = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Tervetuloa Zappiin!</Text>
-      <Pressable onPress={() => navigation.navigate('Login')}>
-        <Text className="text-2xl bg-slate-500 p-4 rounded-lg text-white">
-          Kirjaudu sisään
-        </Text>
-      </Pressable>
-      <Pressable
-        onPress={() => navigation.navigate('RegisterStep1')}
-        className="mt-4"
-      >
-        <Text className="text-2xl bg-slate-500 p-4 rounded-lg text-white">
-          Rekisteröidy
-        </Text>
-      </Pressable>
-    </View>
+    <SafeAreaView className="h-full">
+      <View className="fixed bottom-[-80%] w-full">
+        <CustomButton
+          className="bg-seabed-green mx-auto my-2"
+          onPress={() => navigation.navigate('RegisterStep1')}
+        >
+          <Text>Register</Text>
+        </CustomButton>
+        <CustomButton
+          className="bg-secondary mx-auto my-2"
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Text>Login</Text>
+        </CustomButton>
+      </View>
+    </SafeAreaView>
   );
 };
 
