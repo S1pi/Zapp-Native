@@ -3,15 +3,12 @@ import {
   Alert,
   SafeAreaView,
   Text,
-  TextInput,
   View,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
 import CustomButton from '../../components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
-import {AuthScreenNavigationProp} from '../../navigation/types';
 import BackButton from '../../components/BackButton';
 import {UseUser} from '../../hooks/apiHooks';
 import CustomInput from '../../components/CustomInput';
@@ -30,14 +27,12 @@ const Login = () => {
     defaultValues: initValues,
   });
   const {postLogin} = UseUser();
-  const navigation = useNavigation<AuthScreenNavigationProp>();
 
   const onSubmit = async (data: LoginFormData) => {
     console.log('Form data:', data);
     try {
       const response = await postLogin(data.email, data.password);
       console.log('Login response:', response);
-      // Voit esim. päivittää käyttäjäkontekstin tai navigoida seuraavalle näytölle
     } catch (error) {
       Alert.alert('Kirjautumisvirhe', 'Tarkista sähköposti ja salasana', [
         {

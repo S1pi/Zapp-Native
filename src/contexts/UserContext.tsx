@@ -1,5 +1,6 @@
 import React, {createContext, useState} from 'react';
 import {set} from 'react-hook-form';
+import {UseUser} from '../hooks/apiHooks';
 
 type UserWithNoPassword = {
   id: number;
@@ -23,19 +24,9 @@ const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = ({children}: {children: React.ReactNode}) => {
   const [user, setUser] = useState<UserWithNoPassword | null>(null);
+  const {postLogin} = UseUser();
 
   const handleLogin = (user: UserWithNoPassword) => {
-    user = {
-      id: 1,
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-      phone_number: '123-456-7890',
-      postnumber: '12345',
-      address: '123 Main St',
-      role: 'user',
-      created_at: new Date().toISOString(),
-    };
     console.log('User logged in:', user);
     setUser(user);
   };
