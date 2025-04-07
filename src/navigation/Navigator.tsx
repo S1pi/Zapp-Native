@@ -12,25 +12,43 @@ import RegisterStep1 from '../screens/welcome/RegisterStep1';
 import RegisterStep2 from '../screens/welcome/RegisterStep2';
 import RegisterStep3 from '../screens/welcome/RegisterStep3';
 import RegisterStep4 from '../screens/welcome/RegisterStep4';
+import {Ionicons} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
 const TabScreen = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({route}) => ({
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#093331', // taustaväri
-          borderTopWidth: 0, // poistaa yläreunan
+          backgroundColor: '#093331',
+          borderTopWidth: 0,
           shadowColor: '#000',
           shadowOpacity: 0.1,
           shadowRadius: 10,
-          elevation: 5, // Android-varjostus
+          elevation: 5,
         },
-        tabBarActiveTintColor: '#1af3cf', // aktiivisen ikonin väri
-        tabBarInactiveTintColor: '#f9fcfa', // ei-aktiivisen ikonin väri
-      }}
+        tabBarActiveTintColor: '#1af3cf',
+        tabBarInactiveTintColor: '#f9fcfa',
+        tabBarIcon: ({color, size}) => {
+          let iconName:
+            | 'home-outline'
+            | 'person-outline'
+            | 'time-outline'
+            | undefined;
+
+          if (route.name === 'Home') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Account') {
+            iconName = 'person-outline';
+          } else if (route.name === 'History') {
+            iconName = 'time-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Account" component={Account} />
