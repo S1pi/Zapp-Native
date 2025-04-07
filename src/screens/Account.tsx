@@ -1,84 +1,82 @@
-import React, {useState} from 'react';
-import {Pressable, Text, View, TextInput} from 'react-native';
+import React from 'react';
+import {Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useForm} from 'react-hook-form';
 import {useUserContext} from '../hooks/ContextHooks';
 import CustomButton from '../components/CustomButton';
 import BackButton from '../components/BackButton';
+import CustomInput from '../components/CustomInput';
 
 const Account = () => {
   const {user, handleLogout} = useUserContext();
 
-  const [firstname, setFirstname] = useState(user?.firstname || '');
-  const [lastname, setLastname] = useState(user?.lastname || '');
-  const [email, setEmail] = useState(user?.email || '');
-  const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
-  const [postnumber, setPostnumber] = useState(user?.postnumber || '');
-  const [address, setAddress] = useState(user?.address || '');
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      firstname: user?.firstname || '',
+      lastname: user?.lastname || '',
+      email: user?.email || '',
+      phoneNumber: user?.phone_number || '',
+      postnumber: user?.postnumber || '',
+      address: user?.address || '',
+    },
+  });
 
-  const handleSave = () => {
-    // Add logic here to update user data in the context or backend
-    // This is just a placeholder for the save action
-    // You might want to call an API or update the context state
-    // For example:
-    // updateUser({firstname, lastname, email, phoneNumber, postnumber, address});
-    // For now, we'll just log the changes
+  const onSubmit = (data: any) => {
     console.log('Saving changes...');
-    console.log({firstname, lastname, email, phoneNumber, postnumber, address});
+    console.log(data);
   };
 
   return (
     <SafeAreaView className="">
       <BackButton />
-      //TÄTÄ PITÄÄ VIELÄ MUUTTAA KOSKA BACKBUTTON ON ABSOLUTE POSITIOIN
       <Text className="text-h2 ml-20 mt-3">Account</Text>
+
       <View className="mx-auto mb-10 mt-16 w-4/6">
-        <Text className="text-sm text-secondary">First name</Text>
-        <TextInput
-          value={firstname}
-          onChangeText={setFirstname}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="First Name"
+        <CustomInput
+          control={control}
+          name="firstname"
+          label="First name"
+          className="mb-4"
         />
-        <Text className="text-sm text-secondary">Last name</Text>
-        <TextInput
-          value={lastname}
-          onChangeText={setLastname}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="Last Name"
+        <CustomInput
+          control={control}
+          name="lastname"
+          label="Last name"
+          className="mb-4"
         />
-        <Text className="text-sm text-secondary">Email</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="Email"
+        <CustomInput
+          control={control}
+          name="email"
+          label="Email"
+          keyboardType="email-address"
+          className="mb-4"
         />
-        <Text className="text-sm text-secondary">Phone number</Text>
-        <TextInput
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="Phone Number"
+        <CustomInput
+          control={control}
+          name="phoneNumber"
+          label="Phone number"
+          keyboardType="phone-pad"
+          className="mb-4"
         />
-        <Text className="text-sm text-secondary">Post number</Text>
-        <TextInput
-          value={postnumber}
-          onChangeText={setPostnumber}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="Post Number"
+        <CustomInput
+          control={control}
+          name="postnumber"
+          label="Post number"
+          keyboardType="numeric"
+          className="mb-4"
         />
-        <Text className="text-sm text-secondary">Address</Text>
-        <TextInput
-          value={address}
-          onChangeText={setAddress}
-          className="text-lg mb-4 mt-2 p-2 border rounded-xl"
-          placeholder="Address"
+        <CustomInput
+          control={control}
+          name="address"
+          label="Address"
+          className="mb-4"
         />
       </View>
+
       <View className="mt-0">
         <CustomButton
           className="bg-secondary my-2 mx-auto"
-          onPress={handleSave}
+          onPress={handleSubmit(onSubmit)}
         >
           Save
         </CustomButton>
@@ -86,7 +84,7 @@ const Account = () => {
           className="bg-seabed-green my-2 mx-auto"
           onPress={handleLogout}
         >
-          Log Out
+          Log out
         </CustomButton>
       </View>
     </SafeAreaView>
