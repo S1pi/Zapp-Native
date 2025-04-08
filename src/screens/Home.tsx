@@ -118,7 +118,7 @@ const Home = () => {
           style={styles.map}
           showsUserLocation={true}
           userLocationPriority="high"
-          followsUserLocation={true}
+          followsUserLocation={false}
         >
           {cars
             .filter((car) => !car.reserved)
@@ -156,7 +156,7 @@ const Home = () => {
             // open sort menu
           }}
         >
-          <Ionicons name="funnel" size={20} color="white" />
+          <Ionicons name="funnel" size={30} color="white" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
