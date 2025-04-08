@@ -1,32 +1,90 @@
-import {Pressable, Text, View} from 'react-native';
+import React from 'react';
+import {Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useForm} from 'react-hook-form';
 import {useUserContext} from '../hooks/ContextHooks';
 import CustomButton from '../components/CustomButton';
+import BackButton from '../components/BackButton';
+import CustomInput from '../components/CustomInput';
 
 const Account = () => {
   const {user, handleLogout} = useUserContext();
 
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      firstname: user?.firstname || '',
+      lastname: user?.lastname || '',
+      email: user?.email || '',
+      phoneNumber: user?.phone_number || '',
+      postnumber: user?.postnumber || '',
+      address: user?.address || '',
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    console.log('Saving changes...');
+    console.log(data);
+  };
+
   return (
     <SafeAreaView className="">
-      <Text className="text-xl ml-4">Account</Text>
-      <View className="mx-auto my-24">
-        <Text className="text-lg my-4">{user?.firstname}</Text>
-        <Text className="text-lg my-4">{user?.lastname}</Text>
-        <Text className="text-lg my-4">{user?.email}</Text>
-        <Text className="text-lg my-4">{user?.phone_number}</Text>
-        <Text className="text-lg my-4">{user?.postnumber}</Text>
-        <Text className="text-lg my-4">{user?.address}</Text>
+      <BackButton />
+      <Text className="text-h2 ml-20 mt-3">Account</Text>
+
+      <View className="mx-auto mb-10 mt-16 w-4/6">
+        <CustomInput
+          control={control}
+          name="firstname"
+          label="First name"
+          className="mb-4"
+        />
+        <CustomInput
+          control={control}
+          name="lastname"
+          label="Last name"
+          className="mb-4"
+        />
+        <CustomInput
+          control={control}
+          name="email"
+          label="Email"
+          keyboardType="email-address"
+          className="mb-4"
+        />
+        <CustomInput
+          control={control}
+          name="phoneNumber"
+          label="Phone number"
+          keyboardType="phone-pad"
+          className="mb-4"
+        />
+        <CustomInput
+          control={control}
+          name="postnumber"
+          label="Post number"
+          keyboardType="numeric"
+          className="mb-4"
+        />
+        <CustomInput
+          control={control}
+          name="address"
+          label="Address"
+          className="mb-4"
+        />
       </View>
 
-      <View className="mt-24">
-        <CustomButton className="bg-secondary my-2 mx-auto" onPress={() => {}}>
+      <View className="mt-0">
+        <CustomButton
+          className="bg-secondary my-2 mx-auto"
+          onPress={handleSubmit(onSubmit)}
+        >
           Save
         </CustomButton>
         <CustomButton
           className="bg-seabed-green my-2 mx-auto"
           onPress={handleLogout}
         >
-          Log Out
+          Log out
         </CustomButton>
       </View>
     </SafeAreaView>

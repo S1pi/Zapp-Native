@@ -27,6 +27,17 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   const {postLogin} = UseUser();
 
   const handleLogin = (user: UserWithNoPassword) => {
+    user = {
+      id: 1,
+      firstname: 'Juha',
+      lastname: 'Kuusmaa-Teir',
+      email: 'juha@hercules.com',
+      phone_number: '0402331234',
+      postnumber: '02230',
+      address: 'Markkinakatu 10 A',
+      role: 'user',
+      created_at: new Date().toISOString(),
+    };
     console.log('User logged in:', user);
     setUser(user);
   };
