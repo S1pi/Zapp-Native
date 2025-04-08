@@ -13,6 +13,11 @@ import RegisterStep2 from '../screens/welcome/RegisterStep2';
 import RegisterStep3 from '../screens/welcome/RegisterStep3';
 import RegisterStep4 from '../screens/welcome/RegisterStep4';
 import {Ionicons} from '@expo/vector-icons';
+import About from '../screens/About';
+import Usage from '../screens/Usage';
+import Payments from '../screens/Payments';
+import Contact from '../screens/Contact';
+import Help from '../screens/Help';
 
 const Tab = createBottomTabNavigator();
 
@@ -104,6 +109,21 @@ const AuthStackScreen = () => {
 
 const Stack = createNativeStackNavigator();
 
+const AppNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Account" component={Account} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="History" component={History} />
+      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Usage" component={Usage} />
+      <Stack.Screen name="Payments" component={Payments} />
+      <Stack.Screen name="Contact" component={Contact} />
+      <Stack.Screen name="Help" component={Help} />
+    </Stack.Navigator>
+  );
+};
+
 const StackScreen = () => {
   const {user} = useUserContext();
   return (
@@ -130,3 +150,5 @@ const Navigator = () => {
 };
 
 export {Navigator};
+
+export default AppNavigator;

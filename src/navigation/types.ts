@@ -11,3 +11,17 @@ export type AuthStackParamList = {
 
 export type AuthScreenNavigationProp =
   NativeStackNavigationProp<AuthStackParamList>;
+
+export type AppNavigationParamList = {
+  Home: undefined;
+  Account: undefined;
+  History: undefined;
+  About: undefined;
+  Help: undefined;
+  Usage: undefined;
+  Payments: undefined;
+  Contact: undefined;
+};
+
+export type AppScreenNavigationProp =
+  NativeStackNavigationProp<AppNavigationParamList>;

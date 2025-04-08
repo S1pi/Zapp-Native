@@ -10,6 +10,8 @@ import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import {useFocusEffect} from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons'; // Ikoni nappia varten
+import Menu from './Menu';
+import CustomOpenButton from '../components/CustomOpenButton';
 
 const cars = [
   {
@@ -80,6 +82,8 @@ const cars = [
 ];
 
 const Home = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [sortMenuVisible, setSortMenuVisible] = useState(false);
   const [userLocation, setUserLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -111,7 +115,7 @@ const Home = () => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <>
       <View style={styles.container}>
         <MapView
           ref={mapRef}
@@ -135,31 +139,16 @@ const Home = () => {
             ))}
         </MapView>
 
-        {/* Center button to user location */}
-        <TouchableOpacity style={styles.centerButton} onPress={centerToUser}>
-          <Ionicons name="locate" size={24} color="white" />
-        </TouchableOpacity>
-
-        {/* Open menu button */}
-        <TouchableOpacity
-          style={styles.openMenuButton}
-          onPress={() => {
-            // open menu
-          }}
-        >
-          <Ionicons name="menu" size={30} color="white" />
-        </TouchableOpacity>
-        {/* Sort button */}
-        <TouchableOpacity
-          style={styles.openSortMenuButton}
-          onPress={() => {
-            // open sort menu
-          }}
-        >
-          <Ionicons name="funnel" size={20} color="white" />
-        </TouchableOpacity>
+        <CustomOpenButton
+          icon="menu"
+          iconSize={30}
+          color="white"
+          className="bg-secondary top-20 left-5"
+          onPress={() => setMenuVisible(true)} // Open menu
+        ></CustomOpenButton>
+        <Menu visible={menuVisible} onClose={() => setMenuVisible(false)} />
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
