@@ -118,7 +118,7 @@ const Home = () => {
           style={styles.map}
           showsUserLocation={true}
           userLocationPriority="high"
-          followsUserLocation={true}
+          followsUserLocation={false}
         >
           {cars
             .filter((car) => !car.reserved)
