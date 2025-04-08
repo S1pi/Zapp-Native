@@ -156,7 +156,7 @@ const Home = () => {
             // open sort menu
           }}
         >
-          <Ionicons name="funnel" size={30} color="white" />
+          <Ionicons name="funnel" size={20} color="white" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   openSortMenuButton: {
     position: 'absolute',
     top: 80,
-    left: 20,
+    left: 25,
     backgroundColor: '#007F5F',
     borderRadius: 30,
     padding: 12,
