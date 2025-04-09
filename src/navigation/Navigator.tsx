@@ -111,7 +111,7 @@ const AppStack = createNativeStackNavigator();
 
 const AppStackScreen = () => {
   return (
-    <AppStack.Navigator>
+    <AppStack.Navigator screenOptions={{headerShown: false}}>
       <AppStack.Screen name="About" component={About} />
       <AppStack.Screen name="Payments" component={Payments} />
       <AppStack.Screen name="Contact" component={Contact} />
