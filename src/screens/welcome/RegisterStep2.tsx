@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, SafeAreaView, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   AuthScreenNavigationProp,
@@ -9,10 +15,7 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const RegisterStep2 = () => {
   const route = useRoute<RouteProp<AuthStackParamList, 'RegisterStep2'>>();
