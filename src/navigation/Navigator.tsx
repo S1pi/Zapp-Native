@@ -107,48 +107,67 @@ const AuthStackScreen = () => {
   );
 };
 
-const Stack = createNativeStackNavigator();
+const AppStack = createNativeStackNavigator();
 
-const AppNavigator = () => {
+const AppStackScreen = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Account" component={Account} />
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="History" component={History} />
-      <Stack.Screen name="About" component={About} />
-      <Stack.Screen name="Usage" component={Usage} />
-      <Stack.Screen name="Payments" component={Payments} />
-      <Stack.Screen name="Contact" component={Contact} />
-      <Stack.Screen name="Help" component={Help} />
-    </Stack.Navigator>
+    <AppStack.Navigator>
+      <AppStack.Screen name="About" component={About} />
+      <AppStack.Screen name="Payments" component={Payments} />
+      <AppStack.Screen name="Contact" component={Contact} />
+      <AppStack.Screen name="Help" component={Help} />
+      <AppStack.Screen name="Usage" component={Usage} />
+      <AppStack.Screen name="Home" component={Home} />
+      <AppStack.Screen name="Account" component={Account} />
+      <AppStack.Screen name="History" component={History} />
+    </AppStack.Navigator>
   );
 };
 
+// Example of a nested stack navigator for Help and Contact screens
+// const HelpStack = createNativeStackNavigator();
+// const HelpStackScreen = () => {
+//   return (
+//     <HelpStack.Navigator>
+//       <HelpStack.Screen name="Help" component={Help} />
+//       <HelpStack.Screen name="Contact" component={Contact} />
+//     </HelpStack.Navigator>
+//   );
+// };
+
+const Stack = createNativeStackNavigator();
+
 const StackScreen = () => {
-  const {user} = useUserContext();
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      {user ? (
-        <Stack.Screen name="App" component={TabScreen} />
-      ) : (
-        <Stack.Screen name="Auth" component={AuthStackScreen} />
-      )}
+      <Stack.Screen name="App" component={TabScreen} />
+      <Stack.Screen name="AppStack" component={AppStackScreen} />
+      {/* <Stack.Screen name="HelpStack" component={HelpStackScreen} /> */}
     </Stack.Navigator>
   );
 };
 
 const Navigator = () => {
+  const {user} = useUserContext();
   return (
-    <NavigationContainer>
-      <StackScreen />
-    </NavigationContainer>
+    <>
+      {user ? (
+        <NavigationContainer>
+          <StackScreen />
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          <AuthStackScreen />
+        </NavigationContainer>
+      )}
+    </>
   );
 };
 
 export {Navigator};
 
-export default AppNavigator;
+// export default AppNavigator;

@@ -10,7 +10,7 @@ import {
 import {Ionicons} from '@expo/vector-icons';
 import {useUserContext} from '../hooks/ContextHooks';
 import {useNavigation} from '@react-navigation/native';
-import {AppScreenNavigationProp} from '../navigation/types';
+import {MainNavigationProp} from '../navigation/types';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -19,7 +19,7 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
 
   const {user, handleLogout} = useUserContext();
 
-  const navigation = useNavigation<AppScreenNavigationProp>();
+  const navigation = useNavigation<MainNavigationProp>();
 
   useEffect(() => {
     if (visible) {
@@ -67,7 +67,9 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
           <Text className="text-xl text-primary font-semibold">
             {user?.firstname} {user?.lastname}
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Account')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AppStack', {screen: 'Account'})}
+          >
             <Text className="text-sm text-aqua-gem">My Account</Text>
           </TouchableOpacity>
         </View>
@@ -76,14 +78,18 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
         {/* Add menu items here */}
         <TouchableOpacity
           className="flex flex-row gap-2 items-center"
-          onPress={() => navigation.navigate('History')}
+          onPress={() => navigation.navigate('AppStack', {screen: 'History'})}
         >
           <Ionicons name="time-outline" size={30} color="#093331" />
           <Text className="text-xl">History</Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="flex flex-row gap-2 items-center"
-          onPress={() => navigation.navigate('About')}
+          onPress={() =>
+            navigation.navigate('AppStack', {
+              screen: 'About',
+            })
+          }
         >
           <Ionicons
             name="information-circle-outline"
@@ -94,21 +100,21 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
         </TouchableOpacity>
         <TouchableOpacity
           className="flex flex-row gap-2 items-center"
-          onPress={() => navigation.navigate('Help')}
+          onPress={() => navigation.navigate('AppStack', {screen: 'Help'})}
         >
           <Ionicons name="help-circle-outline" size={30} color="#093331" />
           <Text className="text-xl">Help</Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="flex flex-row gap-2 items-center"
-          onPress={() => navigation.navigate('Payments')}
+          onPress={() => navigation.navigate('AppStack', {screen: 'Payments'})}
         >
           <Ionicons name="card-outline" size={30} color="#093331" />
           <Text className="text-xl">Payments and pricing</Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="flex flex-row gap-2 items-center"
-          onPress={() => navigation.navigate('Usage')}
+          onPress={() => navigation.navigate('AppStack', {screen: 'Payments'})}
         >
           <Ionicons name="phone-portrait-outline" size={30} color="#093331" />
           <Text className="text-xl">App and usage</Text>

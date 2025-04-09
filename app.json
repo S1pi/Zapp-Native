@@ -25,7 +25,12 @@
         "googleMaps": {
           "apiKey": "AIzaSyD-3vX0x1g2b4z5Z7f8J6k9l8Q9w5e3g0M"
         }
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.Zapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
