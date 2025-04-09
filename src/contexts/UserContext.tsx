@@ -9,7 +9,7 @@ import {fetchData} from '../utils/functions';
 type UserContextType = {
   user: UserWithoutPassword | null;
   handleLogin: (user: Credentials) => void;
-  handleAutoLogin: () => void;
+  handleAutoLogin: () => any;
   handleLogout: () => void;
 };
 
@@ -70,8 +70,6 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
     } catch (error) {
       console.error('Auto-login error:', error);
     }
-
-    return 1;
   };
 
   const handleLogout = () => {
