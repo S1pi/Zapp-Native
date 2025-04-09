@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {AuthScreenNavigationProp} from '../navigation/types';
+import {AuthScreenNavigationProp} from '../types/navigationTypes';
 
 interface CustomButtonProps extends PressableProps {
   className?: string;
