@@ -10,7 +10,7 @@ import {
 import {Ionicons} from '@expo/vector-icons';
 import {useUserContext} from '../hooks/ContextHooks';
 import {useNavigation} from '@react-navigation/native';
-import {MainNavigationProp} from '../navigation/types';
+import {MainNavigationProp} from '../types/navigationTypes';
 
 const screenWidth = Dimensions.get('window').width;
 

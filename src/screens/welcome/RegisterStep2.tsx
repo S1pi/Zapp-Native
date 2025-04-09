@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView,
-} from 'react-native';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {
-  AuthScreenNavigationProp,
-  AuthStackParamList,
-} from '../../navigation/types';
+import {View, Text, TextInput, SafeAreaView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {AuthScreenNavigationProp} from '../../types/navigationTypes';
 import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
