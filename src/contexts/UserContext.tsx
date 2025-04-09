@@ -27,12 +27,12 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   const handleLogin = (user: UserWithNoPassword) => {
     user = {
       id: 1,
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-      phone_number: '123-456-7890',
-      postnumber: '12345',
-      address: '123 Main St',
+      firstname: 'Juha',
+      lastname: 'Kuusmaa-Teir',
+      email: 'juha@hercules.com',
+      phone_number: '0402331234',
+      postnumber: '02230',
+      address: 'Markkinakatu 10 A',
       role: 'user',
       created_at: new Date().toISOString(),
     };

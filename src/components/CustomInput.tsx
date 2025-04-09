@@ -29,12 +29,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
         rules={rules}
         render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
           <>
-            <Text className="text-lg">{label}</Text>
+            <Text className="text-sm text-secondary">{label}</Text>
             <TextInput
               placeholder={label}
               keyboardType={keyboardType}
               secureTextEntry={secureTextEntry}
-              className="border border-seperator-line rounded-lg p-2 text-lg mt-2"
+              className="border rounded-xl p-2 text-lg mb-2"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
