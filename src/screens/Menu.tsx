@@ -18,6 +18,7 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
   const slideAnim = useRef(new Animated.Value(-screenWidth)).current;
 
   const {user, handleLogout} = useUserContext();
+
   const navigation = useNavigation<AppScreenNavigationProp>();
 
   useEffect(() => {
