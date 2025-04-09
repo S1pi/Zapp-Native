@@ -80,13 +80,16 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="Welcome"
         component={Welcome}
-        options={{headerShown: false}}
+        options={{headerShown: false, animation: 'none'}}
       />
 
       <AuthStack.Screen
         name="Login"
         component={Login}
-        options={{title: 'Kirjaudu sisään'}}
+        options={{
+          title: 'Kirjaudu sisään',
+          presentation: 'modal',
+        }}
       />
 
       <AuthStack.Screen
