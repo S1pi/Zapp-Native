@@ -10,28 +10,25 @@ import {
 import {useForm} from 'react-hook-form';
 import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
-import {UseUser} from '../../hooks/apiHooks';
 import CustomInput from '../../components/CustomInput';
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import {useUserContext} from '../../hooks/ContextHooks';
+import {Credentials} from '../../../types/user';
 
 const Login = () => {
   const initValues = {
-    email: '',
+    emailOrPhone: '',
     password: '',
   };
-  const {control, handleSubmit} = useForm<LoginFormData>({
+  const {control, handleSubmit} = useForm<Credentials>({
     defaultValues: initValues,
   });
-  const {postLogin} = UseUser();
 
-  const onSubmit = async (data: LoginFormData) => {
+  const {handleLogin} = useUserContext();
+
+  const onSubmit = async (data: Credentials) => {
     console.log('Form data:', data);
     try {
-      const response = await postLogin(data.email, data.password);
+      const response = handleLogin(data);
       console.log('Login response:', response);
     } catch (error) {
       Alert.alert('Kirjautumisvirhe', 'Tarkista sähköposti ja salasana', [
@@ -58,7 +55,7 @@ const Login = () => {
           <CustomInput
             className="mb-3 w-[80%] mx-auto"
             control={control}
-            name="email"
+            name="emailOrPhone"
             label="Sähköposti tai puhelinnumero"
             rules={{
               required: 'Sähköposti tai puhelinnumero on pakollinen',

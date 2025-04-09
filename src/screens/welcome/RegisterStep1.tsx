@@ -11,14 +11,21 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {AuthScreenNavigationProp} from '../../navigation/types';
 import CustomButton from '../../components/CustomButton';
-import Icon from 'react-native-vector-icons/AntDesign';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
 
 const RegisterStep1 = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const {control, handleSubmit} = useForm<any>();
+  const {control, getValues, handleSubmit} = useForm<any>({
+    mode: 'onChange', // Tämä asetus tekee validoinnista reaaliaikaisen
+  });
+
+  const onSubmit = (data: any) => {
+    console.log('Form data:', data);
+    // Voit lisätä tarvittaessa lisäkäsittelyä datalle
+    navigation.navigate('RegisterStep2', {step1Data: data});
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -41,8 +48,8 @@ const RegisterStep1 = () => {
           <CustomInput
             className="mb-3 w-[80%] mx-auto"
             control={control}
-            name="emailOrPhone"
-            label="Sähköposti tai puhelinnumero"
+            name="email"
+            label="Sähköposti"
             rules={{
               required: 'Sähköposti on pakollinen',
               pattern: {
@@ -54,19 +61,32 @@ const RegisterStep1 = () => {
           />
 
           <CustomInput
-            className="mb-32 w-[80%] mx-auto"
+            className="mb-3 w-[80%] mx-auto"
             control={control}
             name="password"
             label="Salasana"
             rules={{required: 'Salasana on pakollinen'}}
             secureTextEntry={true}
           />
+
+          <CustomInput
+            className="mb-32 w-[80%] mx-auto"
+            control={control}
+            name="confirmPassword"
+            label="Vahvista salasana"
+            rules={{
+              required: 'Vahvista salasana',
+              validate: (value: string) =>
+                value === getValues('password') || 'Salasanat eivät täsmää',
+            }}
+            secureTextEntry
+          />
         </View>
 
         <View className="h-[10%]">
           <CustomButton
             className="bg-secondary mx-auto"
-            onPress={() => navigation.navigate('RegisterStep2')}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text>Seuraava</Text>
           </CustomButton>

@@ -1,62 +1,119 @@
 import React from 'react';
-import {View, Text, TextInput, SafeAreaView, Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {AuthScreenNavigationProp} from '../../navigation/types';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  AuthScreenNavigationProp,
+  AuthStackParamList,
+} from '../../navigation/types';
 import CustomButton from '../../components/CustomButton';
-import Icon from 'react-native-vector-icons/AntDesign';
 import BackButton from '../../components/BackButton';
+import CustomInput from '../../components/CustomInput';
+import {useForm} from 'react-hook-form';
 
 const RegisterStep2 = () => {
+  const route = useRoute<RouteProp<AuthStackParamList, 'RegisterStep2'>>();
+  const step1Data = route.params?.step1Data || {};
+
   const navigation = useNavigation<AuthScreenNavigationProp>();
 
+  const initValues = {
+    emailOrPhone: step1Data.emailOrPhone || '',
+    password: step1Data.password || '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    postalCode: '',
+    address: '',
+  };
+
+  const {control, handleSubmit} = useForm<any>({
+    defaultValues: initValues,
+  });
+
+  const onSubmit = async (data: any) => {
+    const allData = {...step1Data, ...data};
+    console.log('allData: ', allData);
+    navigation.navigate('RegisterStep3', {step2Data: allData});
+  };
+
   return (
-    <SafeAreaView className="flex-1 bg-white p-4">
-      <BackButton />
-      <View className="h-[15%]">
-        <View className="flex-row justify-center my-4">
-          <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
-          <View className="w-8 h-8 rounded-full bg-seabed-green mx-1" />
-          <View className="w-8 h-8 rounded-full bg-seperator-line mx-1" />
-          <View className="w-8 h-8 rounded-full bg-seperator-line mx-1" />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView className="flex-1 bg-white p-4">
+        <BackButton />
+        <View className="h-[10%]">
+          <View className="flex-row justify-center my-4">
+            <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
+            <View className="w-8 h-8 rounded-full bg-seabed-green mx-1" />
+            <View className="w-8 h-8 rounded-full bg-seperator-line mx-1" />
+            <View className="w-8 h-8 rounded-full bg-seperator-line mx-1" />
+          </View>
         </View>
-        <Text className="text-lg font-bold text-center my-4">
-          Henkilötiedot
-        </Text>
-      </View>
+        <View className="h-[10%]">
+          <Text className="text-xl text-center">Luo käyttäjä</Text>
+        </View>
+        <ScrollView>
+          <View className="h-[70%]">
+            <CustomInput
+              className="mb-3 w-[80%] mx-auto"
+              control={control}
+              name="firstName"
+              label="Etunimi"
+              rules={{required: 'Etunimi on pakollinen'}}
+            />
 
-      <View className="h-[75%]">
-        <TextInput
-          placeholder="Etunimi"
-          className="border-b border-gray-300 mb-4 p-2"
-        />
-        <TextInput
-          placeholder="Sukunimi"
-          className="border-b border-gray-300 mb-4 p-2"
-        />
-        <TextInput
-          placeholder="Puhelinnumero"
-          keyboardType="phone-pad"
-          className="border-b border-gray-300 mb-4 p-2"
-        />
-        <TextInput
-          placeholder="Henkilötunnus"
-          className="border-b border-gray-300 mb-4 p-2"
-        />
-        <TextInput
-          placeholder="Kansalaisuus"
-          className="border-b border-gray-300 mb-8 p-2"
-        />
-      </View>
+            <CustomInput
+              className="mb-3 w-[80%] mx-auto"
+              control={control}
+              name="lastName"
+              label="Sukunimi"
+              rules={{required: 'Sukunimi on pakollinen'}}
+            />
 
-      <View className="h-[10%]">
-        <CustomButton
-          className="bg-secondary mx-auto"
-          onPress={() => navigation.navigate('RegisterStep3')}
-        >
-          <Text>Seuraava</Text>
-        </CustomButton>
-      </View>
-    </SafeAreaView>
+            <CustomInput
+              className="mb-3 w-[80%] mx-auto"
+              control={control}
+              name="phone"
+              label="Puhelinnumero"
+              rules={{required: 'Puhelinnumero on pakollinen'}}
+              keyboardType="phone-pad"
+            />
+
+            <CustomInput
+              className="mb-3 w-[80%] mx-auto"
+              control={control}
+              name="postalCode"
+              label="Postinumero"
+              rules={{required: 'Postinumero on pakollinen'}}
+              keyboardType="numeric"
+            />
+
+            <CustomInput
+              className="mb-3 w-[80%] mx-auto"
+              control={control}
+              name="address"
+              label="Katuosoite"
+              rules={{required: 'Katuosoite on pakollinen'}}
+            />
+          </View>
+          <View className="h-[300px]"></View>
+        </ScrollView>
+        <View className="h-[10%]">
+          <CustomButton
+            className="bg-secondary mx-auto"
+            onPress={handleSubmit(onSubmit)}
+          >
+            <Text>Seuraava</Text>
+          </CustomButton>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

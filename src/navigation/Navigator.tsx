@@ -12,6 +12,7 @@ import RegisterStep1 from '../screens/welcome/RegisterStep1';
 import RegisterStep2 from '../screens/welcome/RegisterStep2';
 import RegisterStep3 from '../screens/welcome/RegisterStep3';
 import RegisterStep4 from '../screens/welcome/RegisterStep4';
+import Loading from '../screens/Loading';
 import {Ionicons} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -66,6 +67,11 @@ const AuthStackScreen = () => {
         headerShown: false,
       }}
     >
+      <AuthStack.Screen
+        name="Loading"
+        component={Loading}
+        options={{headerShown: false}}
+      />
       <AuthStack.Screen
         name="Welcome"
         component={Welcome}
