@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import {set} from 'react-hook-form';
 import {UseUser} from '../hooks/apiHooks';
 import {LoginResponse} from '../../types/responses';
@@ -9,7 +9,7 @@ import {fetchData} from '../utils/functions';
 type UserContextType = {
   user: UserWithoutPassword | null;
   handleLogin: (user: Credentials) => void;
-  handleAutoLogin: () => any;
+  handleAutoLogin: () => Promise<void>;
   handleLogout: () => void;
 };
 
@@ -51,10 +51,12 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   const handleAutoLogin = async () => {
     try {
+      console.log('Attempting auto-login...');
       const token = await AsyncStorage.getItem('userToken');
       console.log('Token:', token);
       if (token) {
         const response = await getUserByToken(token);
+        console.log('Response:', response);
         if (!response) {
           console.error('Auto-login failed');
           return;
@@ -66,6 +68,8 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
         }
         console.log('User auto-logged in:', user);
         setUser(user);
+      } else {
+        console.log('No token found, user not logged in');
       }
     } catch (error) {
       console.error('Auto-login error:', error);

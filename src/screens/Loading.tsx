@@ -8,17 +8,13 @@ const Loading = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
   const {handleAutoLogin} = useUserContext();
 
-  // useEffect(() => {
-  //   async function autoLogin() {
-  //     await handleAutoLogin();
-  //     navigation.navigate('Welcome');
-  //   }
-  //   autoLogin();
-  // }, []);
-
-  handleAutoLogin().then(() => {
-    navigation.navigate('Welcome');
-  });
+  useEffect(() => {
+    const autoLogin = async () => {
+      await handleAutoLogin();
+      navigation.navigate('Welcome');
+    };
+    autoLogin();
+  }, []);
 
   return (
     <SafeAreaView className="bg-secondary h-full">
