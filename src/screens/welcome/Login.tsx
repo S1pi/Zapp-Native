@@ -47,7 +47,7 @@ const Login = () => {
         <BackButton />
         <View className="h-[10%]"></View>
         <View className="h-[10%]">
-          <Text className="text-xl text-center">Kirjaudu</Text>
+          <Text className="text-xl m-auto">Kirjaudu</Text>
         </View>
         <View className="h-[10%]"></View>
 

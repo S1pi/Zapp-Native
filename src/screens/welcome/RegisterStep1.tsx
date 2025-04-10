@@ -90,6 +90,12 @@ const RegisterStep1 = () => {
           >
             <Text>Seuraava</Text>
           </CustomButton>
+          <CustomButton
+            className="bg-seabed-green mx-auto mt-2"
+            onPress={() => navigation.navigate('RegisterStep2')}
+          >
+            <Text>Ohita</Text>
+          </CustomButton>
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>

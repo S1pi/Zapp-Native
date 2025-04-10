@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
@@ -15,7 +16,6 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const RegisterStep2 = () => {
   const route = useRoute<RouteProp<AuthStackParamList, 'RegisterStep2'>>();
@@ -110,6 +110,12 @@ const RegisterStep2 = () => {
             onPress={handleSubmit(onSubmit)}
           >
             <Text>Seuraava</Text>
+          </CustomButton>
+          <CustomButton
+            className="bg-seabed-green mx-auto mt-2"
+            onPress={() => navigation.navigate('RegisterStep3')}
+          >
+            <Text>Ohita</Text>
           </CustomButton>
         </View>
       </SafeAreaView>

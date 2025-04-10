@@ -86,10 +86,7 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="Login"
         component={Login}
-        options={{
-          title: 'Kirjaudu sisään',
-          presentation: 'modal',
-        }}
+        options={{title: 'Kirjaudu sisään'}}
       />
 
       <AuthStack.Screen
