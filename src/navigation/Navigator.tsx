@@ -121,6 +121,17 @@ const AppStackScreen = () => {
   );
 };
 
+const SortStack = createNativeStackNavigator();
+
+const SortStackScreen = () => {
+  return (
+    <SortStack.Navigator>
+      {/* Add your sort screens here */}
+      <SortStack.Screen name="Sort" component={Home} />
+    </SortStack.Navigator>
+  );
+};
+
 // Example of a nested stack navigator for Help and Contact screens
 // const HelpStack = createNativeStackNavigator();
 // const HelpStackScreen = () => {
@@ -143,6 +154,7 @@ const StackScreen = () => {
     >
       <Stack.Screen name="App" component={TabScreen} />
       <Stack.Screen name="AppStack" component={AppStackScreen} />
+      <Stack.Screen name="SortStack" component={SortStackScreen} />
       {/* <Stack.Screen name="HelpStack" component={HelpStackScreen} /> */}
     </Stack.Navigator>
   );
