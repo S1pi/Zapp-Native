@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Pressable, Alert } from 'react-native'; // Add Alert import
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,22 @@ import { MainNavigationProp } from '../types/navigationTypes';
 const Contact = () => {
   const navigation = useNavigation<MainNavigationProp>();
 
+  // State to manage form inputs
+  const [heading, setHeading] = useState('');
+  const [description, setDescription] = useState('');
+
   // Function to handle tab bar navigation
   const handleTabPress = (screen: 'Home' | 'History' | 'Account') => {
     navigation.navigate('App', { screen });
+  };
+
+  // Function to handle form submission and reset
+  const handleSubmit = () => {
+    // Reset the form
+    setHeading(''); // Reset the Title field
+    setDescription(''); // Reset the Description field
+    // Show a success alert
+    Alert.alert('Kiitos','Your message has been submitted!', [{ text: 'OK' }]);
   };
 
   return (
@@ -33,12 +46,14 @@ const Contact = () => {
           <Text style={styles.header}>Contact us</Text>
         </View>
 
-        {/* Heading Input */}
+        {/* Title Input */}
         <Text style={styles.label}>Title</Text>
         <TextInput
           style={styles.input}
           placeholder="Title of your message..."
           placeholderTextColor="#666"
+          value={heading} // Bind to state
+          onChangeText={setHeading} // Update state on change
         />
 
         {/* Description Text Area */}
@@ -49,10 +64,12 @@ const Contact = () => {
           placeholderTextColor="#666"
           multiline
           numberOfLines={6}
+          value={description} // Bind to state
+          onChangeText={setDescription} // Update state on change
         />
 
         {/* Submit Button */}
-        <Pressable style={styles.submitButton} onPress={() => {}}>
+        <Pressable style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Submit</Text>
         </Pressable>
       </View>
@@ -71,13 +88,12 @@ const Contact = () => {
           <Ionicons name="time-outline" size={24} color="#1af3cf" />
           <Text style={[styles.tabText, { color: '#1af3cf' }]}>History</Text>
         </Pressable>
-
       </View>
     </SafeAreaView>
   );
 };
 
-// Styles for the component
+// Styles for the component (unchanged as requested)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,21 +115,16 @@ const styles = StyleSheet.create({
     marginLeft: 70,
     marginTop: 70,
     color: '#333',
-
   },
   label: {
-
     fontSize: 16,
     fontFamily: 'Arial, Helvetica, sans-serif',
     color: '#007F5F',
     marginBottom: 8,
     paddingTop: 30,
     paddingLeft: 40,
-
-
   },
   input: {
-
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
@@ -137,14 +148,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     width: '40%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   submitButtonText: {
     color: '#fff',
     fontSize: 16,
     fontFamily: 'Arrtial, Helvetica, sans-serif',
   },
-
   tabBar: {
     flexDirection: 'row',
     backgroundColor: '#093331',
