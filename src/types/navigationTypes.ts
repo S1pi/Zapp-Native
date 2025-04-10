@@ -14,9 +14,6 @@ export type AuthScreenNavigationProp =
   NativeStackNavigationProp<AuthStackParamList>;
 
 export type AppNavigationParamList = {
-  Home: undefined;
-  Account: undefined;
-  History: undefined;
   About: undefined;
   Help: undefined;
   Usage: undefined;
@@ -24,8 +21,14 @@ export type AppNavigationParamList = {
   Contact: undefined;
 };
 
+export type TabScreenParamList = {
+  Home: undefined;
+  Account: undefined;
+  History: undefined;
+};
+
 export type MainStackParamList = {
-  App: NavigatorScreenParams<AppNavigationParamList>;
+  App: NavigatorScreenParams<TabScreenParamList>;
   AppStack: NavigatorScreenParams<AppNavigationParamList>;
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {AuthScreenNavigationProp} from '../../navigation/types';
+import {AuthScreenNavigationProp} from '../../types/navigationTypes';
 import CustomButton from '../../components/CustomButton';
 
 const RegisterStep4 = () => {

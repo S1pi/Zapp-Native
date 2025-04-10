@@ -117,9 +117,6 @@ const AppStackScreen = () => {
       <AppStack.Screen name="Contact" component={Contact} />
       <AppStack.Screen name="Help" component={Help} />
       <AppStack.Screen name="Usage" component={Usage} />
-      <AppStack.Screen name="Home" component={Home} />
-      <AppStack.Screen name="Account" component={Account} />
-      <AppStack.Screen name="History" component={History} />
     </AppStack.Navigator>
   );
 };
