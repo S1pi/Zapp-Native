@@ -12,27 +12,20 @@ import RegisterStep1 from '../screens/welcome/RegisterStep1';
 import RegisterStep2 from '../screens/welcome/RegisterStep2';
 import RegisterStep3 from '../screens/welcome/RegisterStep3';
 import RegisterStep4 from '../screens/welcome/RegisterStep4';
+import {Ionicons} from '@expo/vector-icons';
+import About from '../screens/About';
+import Usage from '../screens/Usage';
+import Payments from '../screens/Payments';
+import Contact from '../screens/Contact';
+import Help from '../screens/Help';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 
 const TabScreen = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-          if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Account') {
-            iconName = 'user';
-          } else if (route.name === 'History') {
-            iconName = 'history';
-          }
-          // Return the icon component with the selected name and color
-          return <Icon name={iconName} size={size} color={color} />;
-        },
+      screenOptions={({route}) => ({
         headerShown: false,
         tabBarStyle: {
           backgroundColor: '#093331',
@@ -44,15 +37,32 @@ const TabScreen = () => {
         },
         tabBarActiveTintColor: '#1af3cf',
         tabBarInactiveTintColor: '#f9fcfa',
-        //Uncomment the tabBarlabel in case, the bar lable becomes visible
+        tabBarIcon: ({color, size}) => {
+          let iconName:
+            | 'home-outline'
+            | 'person-outline'
+            | 'time-outline'
+            | 'help-circle-outline'
+            | undefined;
 
-        // tabBarLabel: () => null,
+          if (route.name === 'Home') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Account') {
+            iconName = 'person-outline';
+          } else if (route.name === 'History') {
+            iconName = 'time-outline';
+          }
+            else if (route.name === 'Help') {
+              iconName = 'help-circle-outline';
+          }
 
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="History" component={History} />
       <Tab.Screen name="Account" component={Account} />
+      <Tab.Screen name="History" component={History} />
     </Tab.Navigator>
   );
 };
@@ -102,31 +112,64 @@ const AuthStackScreen = () => {
   );
 };
 
+const AppStack = createNativeStackNavigator();
+
+const AppStackScreen = () => {
+  return (
+    <AppStack.Navigator screenOptions={{headerShown: false}}>
+      <AppStack.Screen name="About" component={About} />
+      <AppStack.Screen name="Payments" component={Payments} />
+      <AppStack.Screen name="Contact" component={Contact} />
+      <AppStack.Screen name="Help" component={Help} />
+      <AppStack.Screen name="Usage" component={Usage} />
+    </AppStack.Navigator>
+  );
+};
+
+// Example of a nested stack navigator for Help and Contact screens
+// const HelpStack = createNativeStackNavigator();
+// const HelpStackScreen = () => {
+//   return (
+//     <HelpStack.Navigator>
+//       <HelpStack.Screen name="Help" component={Help} />
+//       <HelpStack.Screen name="Contact" component={Contact} />
+//     </HelpStack.Navigator>
+//   );
+// };
+
 const Stack = createNativeStackNavigator();
 
 const StackScreen = () => {
-  const {user} = useUserContext();
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      {user ? (
-        <Stack.Screen name="App" component={TabScreen} />
-      ) : (
-        <Stack.Screen name="Auth" component={AuthStackScreen} />
-      )}
+      <Stack.Screen name="App" component={TabScreen} />
+      <Stack.Screen name="AppStack" component={AppStackScreen} />
+      {/* <Stack.Screen name="HelpStack" component={HelpStackScreen} /> */}
     </Stack.Navigator>
   );
 };
 
 const Navigator = () => {
+  const {user} = useUserContext();
   return (
-    <NavigationContainer>
-      <StackScreen />
-    </NavigationContainer>
+    <>
+      {user ? (
+        <NavigationContainer>
+          <StackScreen />
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          <AuthStackScreen />
+        </NavigationContainer>
+      )}
+    </>
   );
 };
 
-export {Navigator, TabScreen};
+export {Navigator};
+
+// export default AppNavigator;

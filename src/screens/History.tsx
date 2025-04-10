@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BackButton from '../components/BackButton';
+import { AuthScreenNavigationProp } from '../types/navigationTypes';
 
 // Sample data representing history entries
 const historyData = [
@@ -12,33 +14,37 @@ const historyData = [
 ];
 
 const History = () => {
+  const navigation = useNavigation<AuthScreenNavigationProp>(); // Use the navigation hook
+
   // Function to render each item in the FlatList
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      {/* Container for the car icon with rounded background */}
       <View style={styles.iconContainer}>
         <Icon name="car" size={20} style={styles.icon} />
       </View>
-      {/* Container for the text details of each history item */}
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.date}>{item.date}, {item.time}</Text>
       </View>
-      {/* Display the amount for each history item */}
       <Text style={styles.amount}>{item.amount}</Text>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header section with back button and title */}
       <View style={styles.headerContainer}>
-        {/* Use BackButton as the back button */}
-        <BackButton />
-        {/* Title of the screen */}
+        <BackButton
+          size={24}
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.navigate('Home'); // Fallback to home screen
+            }
+          }}
+        />
         <Text style={styles.header}>History</Text>
       </View>
-      {/* FlatList to display the list of history items */}
       <FlatList
         data={historyData}
         renderItem={renderItem}
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 50,
-    marginTop: 30,
+    // marginTop: 30,
     // position: 'relative',
 
   },
