@@ -11,6 +11,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useUserContext} from '../hooks/ContextHooks';
 import {useNavigation} from '@react-navigation/native';
 import {MainNavigationProp} from '../navigation/types';
+import BackButton from '../components/BackButton';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -56,10 +57,11 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
         paddingTop: '30%',
       }}
     >
-      <TouchableOpacity className="mb-10 ml-0" onPress={onClose}>
+      {/* <TouchableOpacity className="mb-10 ml-0" onPress={onClose}>
         <Ionicons name="arrow-back" size={40} color="black" />
-      </TouchableOpacity>
-      <View className="flex flex-row items-center gap-4 mb-10">
+      </TouchableOpacity> */}
+      <BackButton onPress={onClose} size={35} />
+      <View className="flex flex-row items-center gap-4 mt-6 mb-10">
         <View className="w-20 h-20 rounded-full p-0 justify-center items-center bg-primary">
           <Ionicons name="person" size={30} color="#cccc" />
         </View>

@@ -10,13 +10,20 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {AuthScreenNavigationProp} from '../navigation/types';
 
 interface CustomButtonProps extends PressableProps {
+  size?: number;
   className?: string;
+  onPress?: () => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
-const BackButton = ({className = '', ...props}: CustomButtonProps) => {
+const BackButton = ({
+  className = '',
+  onPress,
+  size,
+  ...props
+}: CustomButtonProps) => {
   const scale = useSharedValue(1);
 
   const animatedIconStyle = useAnimatedStyle(() => ({
@@ -40,9 +47,13 @@ const BackButton = ({className = '', ...props}: CustomButtonProps) => {
       onPressOut={handlePressOut}
       {...props}
       hitSlop={{top: 30, bottom: 30, left: 30, right: 30}}
-      onPress={() => navigation.goBack()}
+      onPress={onPress ? onPress : () => navigation.goBack()}
     >
-      <AnimatedIcon name="arrowleft" size={30} style={animatedIconStyle} />
+      <AnimatedIcon
+        name="arrowleft"
+        size={size ? size : 30}
+        style={animatedIconStyle}
+      />
     </AnimatedPressable>
   );
 };
