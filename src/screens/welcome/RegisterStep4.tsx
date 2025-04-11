@@ -9,16 +9,49 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import {useUserContext} from '../../hooks/ContextHooks';
 import {UseUser} from '../../hooks/apiHooks';
-import {File} from 'expo-file-system/next';
+// import {File} from 'expo-file-system/next';
+import * as FileSystem from 'expo-file-system';
+import {UserCreate, UserRegisterData} from '../../../types/user';
 
-const blobToBase64 = async (blob: Blob): Promise<string> => {
-  const reader = new FileReader();
-  reader.readAsDataURL(blob);
-  return new Promise((resolve) => {
+// const blobToBase64 = async (blob: Blob): Promise<string> => {
+//   const reader = new FileReader();
+//   reader.readAsDataURL(blob);
+//   return new Promise((resolve) => {
+//     reader.onloadend = () => {
+//       const base64data = reader.result as string;
+//       resolve(base64data);
+//     };
+//   });
+// };
+
+// const uriToBlob = async (uri: string): Promise<Blob> => {
+//   const response = await fetch(uri);
+//   const blob = await response.blob();
+//   return blob;
+// };
+
+// formData.append('license_front', {
+//   uri: data.frontImage,
+//   name: 'front_image.jpg',
+//   type: 'image/jpeg',
+// } as any);
+// formData.append('license_back', {
+//   uri: data.backImage,
+//   name: 'back_image.jpg',
+//   type: 'image/jpeg',
+// } as any);
+
+const uriToBase64 = async (uri: string): Promise<string> => {
+  const response = await fetch(uri);
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
     reader.onloadend = () => {
-      const base64data = reader.result as string;
-      resolve(base64data);
+      const base64 = reader.result?.toString().split(',')[1];
+      resolve(base64 || '');
     };
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
   });
 };
 
@@ -28,52 +61,55 @@ const RegisterStep4 = () => {
   const {postRegister} = UseUser();
   const route = useRoute<RouteProp<AuthStackParamList, 'RegisterStep4'>>();
 
-  const data = route.params?.step3Data || {};
-
-  // formData.append('license_front', {
-  //   uri: data.frontImage,
-  //   name: 'front_image.jpg',
-  //   type: 'image/jpeg',
-  // } as any);
-  // formData.append('license_back', {
-  //   uri: data.backImage,
-  //   name: 'back_image.jpg',
-  //   type: 'image/jpeg',
-  // } as any);
+  const data: UserRegisterData = route.params?.step3Data || {};
 
   const credentials = {
-    emailOrPhone: data.emailOrPhone || '',
+    emailOrPhone: data.phone || '',
     password: data.password || '',
   };
 
   const handleFinish = async () => {
     console.log('step3Data: ', data);
+
+    // Laten tekemä jsonData, @lattexi
+    // const jsonData = {
+    //   email_or_phone: data.emailOrPhone,
+    //   password: data.password,
+    //   first_name: data.firstName,
+    //   last_name: data.lastName,
+    //   phone: data.phone,
+    //   postal_code: data.postalCode,
+    //   address: data.address,
+    // };
+
     const jsonData = {
-      email_or_phone: data.emailOrPhone,
+      firstname: data.firstName,
+      lastname: data.lastName,
+      email: data.email,
+      phone_number: data.phone,
       password: data.password,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      phone: data.phone,
-      postal_code: data.postalCode,
+      postnumber: data.postalCode,
       address: data.address,
     };
 
     const formData = new FormData();
     formData.append('data', JSON.stringify(jsonData));
 
-    console.log('formData', formData);
-    const srcFront = new Blob(data.frontImage);
-    const srcBack = new Blob(data.backImage);
-    console.log('srcFront', srcFront);
+    console.log('Front uri : ', data.frontImage);
+    console.log('Back uri : ', data.backImage);
 
-    const base64Front = await blobToBase64(srcFront);
-    const base64Back = await blobToBase64(srcBack);
+    const frontBase64 = await uriToBase64(data.frontImage);
+    const backBase64 = await uriToBase64(data.backImage);
 
-    formData.append('license_front', base64Front);
-    formData.append('license_back', base64Back);
-    console.log('Form data:', formData);
+    formData.append('license_front_base64', frontBase64);
+    formData.append('license_back_base64', backBase64);
+
+    const info = await FileSystem.getInfoAsync(data.frontImage);
+    console.log('Does file exist:', info.exists);
+
     try {
       const response = await postRegister(formData);
+
       console.log('Registration response:', response);
       if (!response) {
         console.error('Registration failed');

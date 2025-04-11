@@ -1,6 +1,6 @@
 import {LoginResponse} from '../../types/responses';
 import {fetchData} from '../utils/functions';
-import {fetch} from 'expo/fetch';
+// import {fetch} from 'expo/fetch';
 
 const UseUser = () => {
   const postLogin = async (
@@ -53,22 +53,22 @@ const UseUser = () => {
   };
 
   const postRegister = async (userData: FormData) => {
-    console.log('userData', userData);
-    console.log('userData', userData.get('data'));
-    console.log('userData', userData.get('license_front'));
-    console.log('userData', userData.get('license_back'));
+    // console.log('userData from postReg', userData);
+
     const options = {
       method: 'POST',
-      body: userData,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+        // 'Content-Type': 'multipart/form-data',
       },
+      body: userData,
     };
     try {
       const response = await fetchData(
         process.env.EXPO_PUBLIC_API + '/users/register',
         options,
       );
+
       return response;
     } catch (error) {
       console.error('Error registering user:', error);

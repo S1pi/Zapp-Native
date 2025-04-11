@@ -23,4 +23,26 @@ type UserCreate = Omit<User, 'id' | 'created_at' | 'validated' | 'role'>;
 
 type TokenData = Pick<User, 'id' | 'validated' | 'role'>;
 
-export type {User, UserCreate, UserWithoutPassword, TokenData, Credentials};
+/// FUCK LATE VITTU JA SUN TYYPITYS!!! @lattexi
+type UserRegisterData = {
+  address: string;
+  confirmPassword: string;
+  email: string;
+  emailOrPhone: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  phone: string;
+  postalCode: string;
+  frontImage: string;
+  backImage: string;
+};
+
+export type {
+  User,
+  UserCreate,
+  UserWithoutPassword,
+  TokenData,
+  Credentials,
+  UserRegisterData,
+};
