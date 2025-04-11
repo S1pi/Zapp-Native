@@ -50,27 +50,45 @@ const Home = () => {
     }
   };
 
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number => {
+    const R = 6371;
+    const toRad = (deg: number) => deg * (Math.PI / 180);
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+  };
+
   const centerToClosestCar = async () => {
     if (userLocation) {
-      // Suodatin autot näkyville valittujen suodattimien mukaan
+      // Filter for available cars
       const filteredCars = cars.filter((car) => {
-        // Suodatus varattujen autojen perusteella
         if (car.reserved) return false;
 
-        // Suodatus merkin perusteella
         if (selectedBrands.length > 0 && !selectedBrands.includes(car.brand)) {
           return false;
         }
-
-        // Suodatus istuinten perusteella
         if (
           selectedSeats.length > 0 &&
           !selectedSeats.includes(String(car.seats))
         ) {
           return false;
         }
-
-        // Suodatus autoliikkeen perusteella
         if (
           selectedCompany.length > 0 &&
           !selectedCompany.includes(String(car.dealership_id))
@@ -81,13 +99,7 @@ const Home = () => {
         return true;
       });
 
-      // Jos ei ole suodatettuja autoja, palauta
-      if (filteredCars.length === 0) {
-        alert('No cars available with the selected filters.');
-        return;
-      }
-
-      // Etsi lähin auto
+      // Find the closest car
       const closestCar = filteredCars.reduce((prev, curr) => {
         const prevDistance = Math.sqrt(
           Math.pow(prev.latitude - userLocation.latitude, 2) +
@@ -157,15 +169,31 @@ const Home = () => {
 
             return true;
           })
-          .map((car) => (
-            <Marker
-              key={car.id}
-              coordinate={{latitude: car.latitude, longitude: car.longitude}}
-              title={`${car.brand} ${car.model}`}
-              description={`License Plate: ${car.license_plate} Year: ${car.year} seats: ${car.seats}`}
-              pinColor={car.reserved ? 'red' : 'green'}
-            />
-          ))}
+          .map((car) => {
+            if (!userLocation) return null;
+
+            const distance = calculateDistance(
+              userLocation.latitude,
+              userLocation.longitude,
+              car.latitude,
+              car.longitude,
+            );
+
+            const distanceString =
+              distance < 1
+                ? `${(distance * 1000).toFixed(0)} m`
+                : `${distance.toFixed(2)} km`;
+
+            return (
+              <Marker
+                key={car.id}
+                coordinate={{latitude: car.latitude, longitude: car.longitude}}
+                title={`${car.brand} ${car.model}`}
+                description={`Distance: ${distanceString}, License Plate: ${car.license_plate} Year: ${car.year} seats: ${car.seats}`}
+                pinColor={car.reserved ? 'red' : 'green'}
+              />
+            );
+          })}
       </MapView>
 
       <CustomOpenButton
@@ -247,7 +275,7 @@ const Home = () => {
               <ScrollView
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={true}
-                className="max-h-72 overflow-y-auto mb-4"
+                className="max-h-72 w-11/12 self-center overflow-y-auto mb-4"
               >
                 {brands.map((brand) => {
                   const isSelected = selectedBrands.includes(brand);
@@ -303,7 +331,7 @@ const Home = () => {
               )}
             </TouchableOpacity>
             {sortBySeatsVisible && (
-              <View className="mb-4">
+              <View className="mb-4 w-11/12 self-center">
                 {Array.from(new Set(cars.map((car) => car.seats)))
                   .sort((a, b) => a - b)
                   .map((seats) => {
@@ -360,7 +388,7 @@ const Home = () => {
               )}
             </TouchableOpacity>
             {sortByCompanyVisible && (
-              <View className="mb-4">
+              <View className="self-center w-11/12 mb-4">
                 {Array.from(new Set(cars.map((car) => car.dealership_id))).map(
                   (company) => {
                     const isSelected = selectedCompany.includes(
@@ -407,10 +435,10 @@ const Home = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                className="bg-aqua-gem w-3/5 flex justify-center items-center rounded-2xl p-2"
+                className="bg-secondary w-3/5 flex justify-center items-center rounded-2xl p-2"
                 onPress={() => setFilterMenuVisible(false)}
               >
-                <Text className="color-black-zapp">Use filter</Text>
+                <Text className="color-primary">Use filter</Text>
               </TouchableOpacity>
             </View>
           </View>
