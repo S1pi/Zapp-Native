@@ -8,7 +8,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker, Polygon} from 'react-native-maps';
 import * as Location from 'expo-location';
 import {useFocusEffect} from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import Menu from './Menu';
 import CustomOpenButton from '../components/CustomOpenButton';
 import {cars} from '../components/cars';
 import {dealerships} from '../components/dealerships';
+import {parkingZones} from '../components/parkingZones';
 
 const Home = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -138,6 +139,18 @@ const Home = () => {
         showsUserLocation={true}
         userLocationPriority="high"
       >
+        {parkingZones.map((zone) => (
+          <>
+            <Polygon
+              className="flex"
+              key={zone.id}
+              coordinates={zone.location}
+              strokeColor="green"
+              fillColor="rgba(0, 255, 0, 0.2)"
+              strokeWidth={2}
+            />
+          </>
+        ))}
         {cars
           .filter((car) => {
             // Suodatus varattujen autojen perusteella
