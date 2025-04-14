@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Pressable, Alert } from 'react-native'; // Add Alert import
+import React from 'react';
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import BackButton from '../components/BackButton';
+import CustomInput from '../components/CustomInput';
 import { MainNavigationProp } from '../types/navigationTypes';
+import { useForm } from 'react-hook-form';
+
+// Define the form data type
+type ContactFormData = {
+  heading: string;
+  description: string;
+};
 
 const Contact = () => {
   const navigation = useNavigation<MainNavigationProp>();
 
-  // State to manage form inputs
-  const [heading, setHeading] = useState('');
-  const [description, setDescription] = useState('');
+  // Initialize react-hook-form
+  const { control, handleSubmit, reset } = useForm<ContactFormData>({
+    defaultValues: {
+      heading: '',
+      description: '',
+    },
+    mode: 'onChange',
+  });
 
   // Function to handle tab bar navigation
   const handleTabPress = (screen: 'Home' | 'History' | 'Account') => {
     navigation.navigate('App', { screen });
   };
 
-  // Function to handle form submission and reset
-  const handleSubmit = () => {
-    // Reset the form
-    setHeading(''); // Reset the Title field
-    setDescription(''); // Reset the Description field
-    // Show a success alert
-    Alert.alert('Kiitos','Your message has been submitted!', [{ text: 'OK' }]);
+  // Function to handle form submission
+  const onSubmit = () => {
+    reset(); // Reset the form, similar to setHeading('') and setDescription('')
+    Alert.alert('Kiitos', 'Your message has been submitted!', [{ text: 'OK' }]);
   };
 
   return (
@@ -47,29 +57,29 @@ const Contact = () => {
         </View>
 
         {/* Title Input */}
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Title of your message..."
-          placeholderTextColor="#666"
-          value={heading} // Bind to state
-          onChangeText={setHeading} // Update state on change
+        <CustomInput
+          control={control}
+          name="heading"
+          label="Title"
+          rules={{ required: 'Title is required' }}
+
+          className="w-[80%] mx-auto "
+
         />
 
         {/* Description Text Area */}
-        <Text style={styles.label}>Description</Text>
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          placeholder="Write your message here..."
-          placeholderTextColor="#666"
-          multiline
-          numberOfLines={6}
-          value={description} // Bind to state
-          onChangeText={setDescription} // Update state on change
+        <CustomInput
+          control={control}
+          name="description"
+          label="Description"
+          rules={{ required: 'Description is required' }}
+          className="w-[80%] mx-auto "
+
+
         />
 
         {/* Submit Button */}
-        <Pressable style={styles.submitButton} onPress={handleSubmit}>
+        <Pressable style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.submitButtonText}>Submit</Text>
         </Pressable>
       </View>
@@ -93,7 +103,7 @@ const Contact = () => {
   );
 };
 
-// Styles for the component (unchanged as requested)
+// Styles for the component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textArea: {
-    height: 200,
+    height: 500,
     textAlignVertical: 'top',
     width: '80%',
   },
