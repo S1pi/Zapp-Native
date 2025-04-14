@@ -1,4 +1,4 @@
-import {LoginResponse} from '../../types/responses';
+import {EmailOrPhoneResponse, LoginResponse} from '../../types/responses';
 import {fetchData} from '../utils/functions';
 // import {fetch} from 'expo/fetch';
 
@@ -76,10 +76,33 @@ const UseUser = () => {
     }
   };
 
+  const checkPhoneAndEmailAvailability = async (
+    email: string | null,
+    phone: string | null,
+  ) => {
+    const options = {
+      method: 'GET',
+    };
+
+    const apiEndPoint = email
+      ? '/users/register/check?email=' + email
+      : '/users/register/check?phone=' + phone;
+    try {
+      const response = await fetchData<EmailOrPhoneResponse>(
+        process.env.EXPO_PUBLIC_API + apiEndPoint,
+        options,
+      );
+      return response.available;
+    } catch (error) {
+      console.error('Error checking availability: ', error);
+    }
+  };
+
   return {
     postLogin,
     getUserByToken,
     postRegister,
+    checkPhoneAndEmailAvailability,
   };
 };
 

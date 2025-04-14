@@ -1,8 +1,7 @@
-import {Pressable, SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AuthScreenNavigationProp} from '../../types/navigationTypes';
 import CustomButton from '../../components/CustomButton';
-import {useUserContext} from '../../hooks/ContextHooks';
 
 const Welcome = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();

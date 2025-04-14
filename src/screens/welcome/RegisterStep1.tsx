@@ -2,9 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
-  TextInput,
   SafeAreaView,
-  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -14,14 +12,17 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
+import {RegisterStep1Data} from '../../../types/user';
+import {UseUser} from '../../hooks/apiHooks';
 
 const RegisterStep1 = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const {control, getValues, handleSubmit} = useForm<any>({
+  const {control, getValues, handleSubmit} = useForm<RegisterStep1Data>({
     mode: 'onChange', // Tämä asetus tekee validoinnista reaaliaikaisen
   });
+  const {checkPhoneAndEmailAvailability} = UseUser();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: RegisterStep1Data) => {
     console.log('Form data:', data);
     // Voit lisätä tarvittaessa lisäkäsittelyä datalle
     navigation.navigate('RegisterStep2', {step1Data: data});
@@ -52,6 +53,18 @@ const RegisterStep1 = () => {
             label="Sähköposti"
             rules={{
               required: 'Sähköposti on pakollinen',
+              validate: async (email: string) => {
+                try {
+                  // null for not checked value
+                  const available = await checkPhoneAndEmailAvailability(
+                    email,
+                    null,
+                  );
+                  return available ? true : 'Sähköposti on jo käytössä';
+                } catch (error) {
+                  console.log((error as Error).message);
+                }
+              },
               pattern: {
                 value: /^\S+@\S+$/i,
                 message: 'Syötä validi sähköposti',

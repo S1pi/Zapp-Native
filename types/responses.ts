@@ -1,4 +1,4 @@
-import { UserWithoutPassword } from "./user";
+import {UserWithoutPassword} from './user';
 
 type CreatedUserSuccessResponse = {
   message: string;
@@ -11,4 +11,9 @@ type LoginResponse = {
   user: UserWithoutPassword;
 };
 
-export type { CreatedUserSuccessResponse, LoginResponse };
+type EmailOrPhoneResponse = {
+  message: string;
+  available: boolean;
+};
+
+export type {CreatedUserSuccessResponse, LoginResponse, EmailOrPhoneResponse};
