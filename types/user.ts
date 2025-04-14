@@ -23,7 +23,6 @@ type UserCreate = Omit<User, 'id' | 'created_at' | 'validated' | 'role'>;
 
 type TokenData = Pick<User, 'id' | 'validated' | 'role'>;
 
-/// FUCK LATE VITTU JA SUN TYYPITYS!!! @lattexi
 type UserRegisterData = {
   address: string;
   confirmPassword: string;
@@ -38,6 +37,17 @@ type UserRegisterData = {
   backImage: string;
 };
 
+type RegisterStep1Data = Pick<
+  UserRegisterData,
+  'email' | 'password' | 'confirmPassword'
+>;
+
+type RegisterStep2Data = Pick<
+  UserRegisterData,
+  'firstName' | 'lastName' | 'phone' | 'postalCode' | 'address'
+>;
+type RegisterStep3Data = Pick<UserRegisterData, 'frontImage' | 'backImage'>;
+
 export type {
   User,
   UserCreate,
@@ -45,4 +55,7 @@ export type {
   TokenData,
   Credentials,
   UserRegisterData,
+  RegisterStep1Data,
+  RegisterStep2Data,
+  RegisterStep3Data,
 };

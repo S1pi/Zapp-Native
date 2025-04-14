@@ -16,10 +16,13 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
+import {RegisterStep2Data} from '../../../types/user';
+import {UseUser} from '../../hooks/apiHooks';
 
 const RegisterStep2 = () => {
   const route = useRoute<RouteProp<AuthStackParamList, 'RegisterStep2'>>();
   const step1Data = route.params?.step1Data || {};
+  const {checkPhoneAndEmailAvailability} = UseUser();
 
   const navigation = useNavigation<AuthScreenNavigationProp>();
 
@@ -33,11 +36,12 @@ const RegisterStep2 = () => {
     address: '',
   };
 
-  const {control, handleSubmit} = useForm<any>({
+  const {control, handleSubmit} = useForm<RegisterStep2Data>({
     defaultValues: initValues,
+    mode: 'onChange',
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: RegisterStep2Data) => {
     const allData = {...step1Data, ...data};
     console.log('allData: ', allData);
     navigation.navigate('RegisterStep3', {step2Data: allData});
@@ -65,7 +69,13 @@ const RegisterStep2 = () => {
               control={control}
               name="firstName"
               label="Etunimi"
-              rules={{required: 'Etunimi on pakollinen'}}
+              rules={{
+                required: 'Etunimi on pakollinen',
+                pattern: {
+                  value: /^[A-Za-z]+$/,
+                  message: 'Etunimi voi sisältää vain kirjaimia',
+                },
+              }}
             />
 
             <CustomInput
@@ -73,7 +83,13 @@ const RegisterStep2 = () => {
               control={control}
               name="lastName"
               label="Sukunimi"
-              rules={{required: 'Sukunimi on pakollinen'}}
+              rules={{
+                required: 'Sukunimi on pakollinen',
+                pattern: {
+                  value: /^[A-Za-z]+$/,
+                  message: 'Sukunimi voi sisältää vain kirjaimia',
+                },
+              }}
             />
 
             <CustomInput
@@ -83,9 +99,21 @@ const RegisterStep2 = () => {
               label="Puhelinnumero"
               rules={{
                 required: 'Puhelinnumero on pakollinen',
+                validate: async (value: string) => {
+                  try {
+                    // null for not checked value
+                    const available = await checkPhoneAndEmailAvailability(
+                      null,
+                      value,
+                    );
+                    return available ? true : 'Puhelinnumero on jo käytössä';
+                  } catch (error) {
+                    console.log((error as Error).message);
+                  }
+                },
                 pattern: {
-                  value: /^(\+358|0)\s*\d(\s*\d){6,9}$/, // Adjust the regex to match your phone number format
-                  message: 'Puhelinnumero ei kelpaa',
+                  value: /^(\+358|0)\s*\d(\s*\d){6,9}$/,
+                  message: 'Puhelinnumero on muodoltaan väärä',
                 },
               }}
               keyboardType="phone-pad"
@@ -96,7 +124,13 @@ const RegisterStep2 = () => {
               control={control}
               name="postalCode"
               label="Postinumero"
-              rules={{required: 'Postinumero on pakollinen'}}
+              rules={{
+                required: 'Postinumero on pakollinen',
+                pattern: {
+                  value: /^\d{5}$/,
+                  message: 'Postinumeron tulee olla 5 numeroa pitkä',
+                },
+              }}
               keyboardType="numeric"
             />
 
@@ -105,7 +139,14 @@ const RegisterStep2 = () => {
               control={control}
               name="address"
               label="Katuosoite"
-              rules={{required: 'Katuosoite on pakollinen'}}
+              rules={{
+                required: 'Katuosoite on pakollinen',
+                pattern: {
+                  value: /^[A-Za-z0-9\s.,-]+$/,
+                  message:
+                    'Katuosoite voi sisältää vain kirjaimia ja numeroita',
+                },
+              }}
             />
           </View>
           <View className="h-[300px]"></View>

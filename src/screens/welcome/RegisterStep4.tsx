@@ -9,37 +9,8 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import {useUserContext} from '../../hooks/ContextHooks';
 import {UseUser} from '../../hooks/apiHooks';
-// import {File} from 'expo-file-system/next';
 import * as FileSystem from 'expo-file-system';
-import {UserCreate, UserRegisterData} from '../../../types/user';
-
-// const blobToBase64 = async (blob: Blob): Promise<string> => {
-//   const reader = new FileReader();
-//   reader.readAsDataURL(blob);
-//   return new Promise((resolve) => {
-//     reader.onloadend = () => {
-//       const base64data = reader.result as string;
-//       resolve(base64data);
-//     };
-//   });
-// };
-
-// const uriToBlob = async (uri: string): Promise<Blob> => {
-//   const response = await fetch(uri);
-//   const blob = await response.blob();
-//   return blob;
-// };
-
-// formData.append('license_front', {
-//   uri: data.frontImage,
-//   name: 'front_image.jpg',
-//   type: 'image/jpeg',
-// } as any);
-// formData.append('license_back', {
-//   uri: data.backImage,
-//   name: 'back_image.jpg',
-//   type: 'image/jpeg',
-// } as any);
+import {UserRegisterData} from '../../../types/user';
 
 const uriToBase64 = async (uri: string): Promise<string> => {
   const response = await fetch(uri);
@@ -71,17 +42,6 @@ const RegisterStep4 = () => {
   const handleFinish = async () => {
     console.log('step3Data: ', data);
 
-    // Laten tekemä jsonData, @lattexi
-    // const jsonData = {
-    //   email_or_phone: data.emailOrPhone,
-    //   password: data.password,
-    //   first_name: data.firstName,
-    //   last_name: data.lastName,
-    //   phone: data.phone,
-    //   postal_code: data.postalCode,
-    //   address: data.address,
-    // };
-
     const jsonData = {
       firstname: data.firstName,
       lastname: data.lastName,
@@ -98,16 +58,20 @@ const RegisterStep4 = () => {
     console.log('Front uri : ', data.frontImage);
     console.log('Back uri : ', data.backImage);
 
-    const frontBase64 = await uriToBase64(data.frontImage);
-    const backBase64 = await uriToBase64(data.backImage);
-
-    formData.append('license_front_base64', frontBase64);
-    formData.append('license_back_base64', backBase64);
-
-    const info = await FileSystem.getInfoAsync(data.frontImage);
-    console.log('Does file exist:', info.exists);
-
     try {
+      const infoFront = await FileSystem.getInfoAsync(data.frontImage);
+      const infoBack = await FileSystem.getInfoAsync(data.backImage);
+      if (!infoFront.exists || !infoBack.exists) {
+        console.error('File does not exist:', data.frontImage);
+        console.error('File does not exist:', data.backImage);
+        return;
+      }
+      const frontBase64 = await uriToBase64(data.frontImage);
+      const backBase64 = await uriToBase64(data.backImage);
+
+      formData.append('license_front_base64', frontBase64);
+      formData.append('license_back_base64', backBase64);
+
       const response = await postRegister(formData);
 
       console.log('Registration response:', response);

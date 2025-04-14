@@ -12,7 +12,7 @@ import RegisterStep1 from '../screens/welcome/RegisterStep1';
 import RegisterStep2 from '../screens/welcome/RegisterStep2';
 import RegisterStep3 from '../screens/welcome/RegisterStep3';
 import RegisterStep4 from '../screens/welcome/RegisterStep4';
-import Loading from '../screens/Loading';
+import Loading from '../screens/welcome/Loading';
 import {Ionicons} from '@expo/vector-icons';
 import About from '../screens/About';
 import Usage from '../screens/Usage';

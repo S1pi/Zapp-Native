@@ -6,6 +6,7 @@ import {
   Pressable,
   Image,
   TextInput,
+  Alert,
 } from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
@@ -16,6 +17,7 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import {CameraView, useCameraPermissions} from 'expo-camera';
 import {Controller, useForm} from 'react-hook-form';
+import {RegisterStep3Data} from '../../../types/user';
 
 const RegisterStep3 = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
@@ -40,7 +42,7 @@ const RegisterStep3 = () => {
     frontImage: '',
     backImage: '',
   };
-  const {control, handleSubmit} = useForm<any>({
+  const {control, handleSubmit} = useForm<RegisterStep3Data>({
     defaultValues: initValues,
   });
 
@@ -48,6 +50,11 @@ const RegisterStep3 = () => {
     console.log('step2Data: ', step2Data);
     const allData = {...step2Data, frontImage: uri1, backImage: uri2};
     console.log('allData: ', allData);
+
+    if (!uri1 || !uri2) {
+      Alert.alert('Ota kuvat ajokortin molemmista puolista');
+      return;
+    }
 
     console.log('data: ', allData);
     navigation.navigate('RegisterStep4', {step3Data: allData});
