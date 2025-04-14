@@ -1,4 +1,4 @@
-import {ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
+import {ActivityIndicator, Image, SafeAreaView, Text, View} from 'react-native';
 import {useUserContext} from '../../hooks/ContextHooks';
 import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -19,8 +19,11 @@ const Loading = () => {
   return (
     <SafeAreaView className="bg-secondary h-full">
       <View className="m-auto">
-        <Text className="text-lg mx-auto">Ladataan</Text>
-        <ActivityIndicator size={50} className="mx-auto" />
+        <Image
+          source={require('./logos/zapp-logo.png')}
+          className="mx-auto mb-4 w-60 h-60"
+        />
+        <ActivityIndicator size={50} className="mx-auto text-aqua-gem" />
       </View>
     </SafeAreaView>
   );

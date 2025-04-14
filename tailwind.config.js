@@ -20,6 +20,8 @@ module.exports = {
       sunshine: '#ffb703',
 
       'seperator-line': '#a19f9f',
+      'card-background': '#f6f6f6',
+      'card-stroke': '#d6d6d6',
     },
     fontSize: {
       xs: '0.75rem',
