@@ -81,7 +81,13 @@ const RegisterStep2 = () => {
               control={control}
               name="phone"
               label="Puhelinnumero"
-              rules={{required: 'Puhelinnumero on pakollinen'}}
+              rules={{
+                required: 'Puhelinnumero on pakollinen',
+                pattern: {
+                  value: /^(\+358|0)\s*\d(\s*\d){6,9}$/, // Adjust the regex to match your phone number format
+                  message: 'Puhelinnumero ei kelpaa',
+                },
+              }}
               keyboardType="phone-pad"
             />
 
