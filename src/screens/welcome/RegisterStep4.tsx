@@ -12,19 +12,20 @@ import {UseUser} from '../../hooks/apiHooks';
 import * as FileSystem from 'expo-file-system';
 import {UserRegisterData} from '../../../types/user';
 
-const uriToBase64 = async (uri: string): Promise<string> => {
-  const response = await fetch(uri);
-  const blob = await response.blob();
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result?.toString().split(',')[1];
-      resolve(base64 || '');
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-};
+// JUST HERE FOR LEGACY PURPOSES R.I.P. OLD CODE!!!!
+// const uriToBase64 = async (uri: string): Promise<string> => {
+//   const response = await fetch(uri);
+//   const blob = await response.blob();
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       const base64 = reader.result?.toString().split(',')[1];
+//       resolve(base64 || '');
+//     };
+//     reader.onerror = reject;
+//     reader.readAsDataURL(blob);
+//   });
+// };
 
 const RegisterStep4 = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
@@ -55,22 +56,14 @@ const RegisterStep4 = () => {
     const formData = new FormData();
     formData.append('data', JSON.stringify(jsonData));
 
-    console.log('Front uri : ', data.frontImage);
-    console.log('Back uri : ', data.backImage);
-
     try {
-      const infoFront = await FileSystem.getInfoAsync(data.frontImage);
-      const infoBack = await FileSystem.getInfoAsync(data.backImage);
-      if (!infoFront.exists || !infoBack.exists) {
-        console.error('File does not exist:', data.frontImage);
-        console.error('File does not exist:', data.backImage);
+      if (!data.frontImage || !data.backImage) {
+        console.error('Front or back image is missing');
         return;
       }
-      const frontBase64 = await uriToBase64(data.frontImage);
-      const backBase64 = await uriToBase64(data.backImage);
 
-      formData.append('license_front_base64', frontBase64);
-      formData.append('license_back_base64', backBase64);
+      formData.append('license_front_base64', data.frontImage);
+      formData.append('license_back_base64', data.backImage);
 
       const response = await postRegister(formData);
 

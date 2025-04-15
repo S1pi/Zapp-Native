@@ -50,6 +50,8 @@ const RegisterStep3 = () => {
   const ref = useRef<CameraView>(null);
   const [uri1, setUri1] = useState<string | undefined>(undefined);
   const [uri2, setUri2] = useState<string | undefined>(undefined);
+  const [base64Front, setBase64Front] = useState<string | undefined>(undefined);
+  const [base64Back, setBase64Back] = useState<string | undefined>(undefined);
   const [side, setSide] = useState<'front' | 'back' | null>(null);
   const [showCamera, setShowCamera] = useState(false);
 
@@ -73,7 +75,11 @@ const RegisterStep3 = () => {
 
   const onSubmit = async () => {
     console.log('step2Data: ', step2Data);
-    const allData = {...step2Data, frontImage: uri1, backImage: uri2};
+    const allData = {
+      ...step2Data,
+      frontImage: base64Front,
+      backImage: base64Back,
+    };
     console.log('allData: ', allData);
 
     if (!uri1 || !uri2) {
@@ -84,17 +90,6 @@ const RegisterStep3 = () => {
     console.log('data: ', allData);
     navigation.navigate('RegisterStep4', {step3Data: allData});
   };
-
-  // const takePicture = async () => {
-  //   const photo = await ref.current?.takePictureAsync();
-  //   if (side === 'front') {
-  //     setUri1(photo?.uri);
-  //   }
-  //   if (side === 'back') {
-  //     setUri2(photo?.uri);
-  //   }
-  //   console.log('photo: ', photo);
-  // };
 
   if (!permission) {
     console.log('Camera permission is null');
@@ -128,6 +123,8 @@ const RegisterStep3 = () => {
       <PictureTakingModal
         setUri1={setUri1}
         setUri2={setUri2}
+        setBase64Front={setBase64Front}
+        setBase64Back={setBase64Back}
         side={side}
         showCamera={showCamera}
         setShowCamera={setShowCamera}
