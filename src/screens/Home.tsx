@@ -7,6 +7,10 @@ import {
   Text,
   Modal,
   ScrollView,
+  Animated,
+  PanResponder,
+  Dimensions,
+  FlatList,
 } from 'react-native';
 import MapView, {Marker, Polygon} from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -35,6 +39,43 @@ const Home = () => {
   const [sortByCompanyVisible, setSortByCompanyVisible] = useState(false);
 
   const mapRef = useRef<MapView | null>(null);
+
+  const screenHeight = Dimensions.get('window').height;
+  const panelHeight = screenHeight * 0.25;
+  const panY = useRef(new Animated.Value(screenHeight)).current;
+  const translateY = Animated.diffClamp(panY, 0, panelHeight);
+
+  const resetPositionAnim = Animated.timing(panY, {
+    toValue: screenHeight - panelHeight,
+    duration: 300,
+    useNativeDriver: true,
+  });
+
+  const closeAnim = Animated.timing(panY, {
+    toValue: screenHeight,
+    duration: 300,
+    useNativeDriver: true,
+  });
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gestureState) => {
+        panY.setValue(screenHeight - gestureState.dy);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 50) {
+          closeAnim.start();
+        } else {
+          resetPositionAnim.start();
+        }
+      },
+    }),
+  ).current;
+
+  useEffect(() => {
+    resetPositionAnim.start();
+  }, []);
 
   const centerToUser = async () => {
     const {status} = await Location.requestForegroundPermissionsAsync();
@@ -130,6 +171,28 @@ const Home = () => {
   );
 
   const brands = [...new Set(cars.map((car) => car.brand))];
+
+  const nearestCars = cars.filter((car) => {
+    if (car.reserved) return false;
+
+    if (selectedBrands.length > 0 && !selectedBrands.includes(car.brand)) {
+      return false;
+    }
+    if (
+      selectedSeats.length > 0 &&
+      !selectedSeats.includes(String(car.seats))
+    ) {
+      return false;
+    }
+    if (
+      selectedCompany.length > 0 &&
+      !selectedCompany.includes(String(car.dealership_id))
+    ) {
+      return false;
+    }
+
+    return true;
+  });
 
   return (
     <View style={styles.container}>
@@ -457,6 +520,54 @@ const Home = () => {
           </View>
         </View>
       </Modal>
+      <Animated.View
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          height: panelHeight,
+          backgroundColor: '#fff',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          transform: [{translateY: translateY}],
+          padding: 16,
+        }}
+        {...panResponder.panHandlers}
+      >
+        <View style={{alignItems: 'center', marginBottom: 12}}>
+          <View
+            style={{
+              width: 40,
+              height: 5,
+              backgroundColor: '#ccc',
+              borderRadius: 3,
+            }}
+          />
+        </View>
+        <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 8}}>
+          Lähimmät autot
+        </Text>
+        <FlatList
+          data={nearestCars}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({item}) => (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 12,
+              }}
+            >
+              <Text style={{fontSize: 20, marginRight: 12}}>🚗</Text>
+              <View>
+                <Text style={{fontWeight: 'bold'}}>
+                  {item.brand} {item.model}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
+      </Animated.View>
     </View>
   );
 };
