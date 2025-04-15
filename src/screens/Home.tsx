@@ -12,6 +12,7 @@ import {
   Dimensions,
   FlatList,
   Button,
+  Image,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet, {
@@ -28,6 +29,23 @@ import CustomOpenButton from '../components/CustomOpenButton';
 import {cars} from '../components/cars';
 import {dealerships} from '../components/dealerships';
 import {parkingZones} from '../components/parkingZones';
+import {CarModal} from '../components/CarModal';
+import {set} from 'react-hook-form';
+
+export type Car = {
+  id: number;
+  brand: string;
+  model: string;
+  year: string;
+  license_plate: string;
+  seats: number;
+  latitude: number;
+  longitude: number;
+  dealership_id: number;
+  reserved: boolean;
+  parking_zone_id: number;
+  showcase_image_url?: string;
+};
 
 const Home = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -44,6 +62,11 @@ const Home = () => {
   const [sortByBrandVisible, setSortByBrandVisible] = useState(false);
   const [sortBySeatsVisible, setSortBySeatsVisible] = useState(false);
   const [sortByCompanyVisible, setSortByCompanyVisible] = useState(false);
+  const [carModalVisible, setCarModalVisible] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [distanceToSelectedCar, setDistanceToSelectedCar] = useState<
+    string | null
+  >(null);
 
   const mapRef = useRef<MapView | null>(null);
 
@@ -56,7 +79,7 @@ const Home = () => {
   }, []);
 
   //Snap points
-  const snapPoints = ['20%', '50%'];
+  const snapPoints = ['23%', '50%'];
 
   const centerToUser = async () => {
     const {status} = await Location.requestForegroundPermissionsAsync();
@@ -175,6 +198,19 @@ const Home = () => {
     return true;
   });
 
+  const sortedCars = [...cars]
+    .filter((car) => userLocation !== null) // varmuuden vuoksi
+    .map((car) => {
+      const distance = calculateDistance(
+        userLocation!.latitude,
+        userLocation!.longitude,
+        car.latitude,
+        car.longitude,
+      );
+      return {...car, distance};
+    })
+    .sort((a, b) => a.distance - b.distance);
+
   return (
     <GestureHandlerRootView>
       <View style={styles.container}>
@@ -247,13 +283,29 @@ const Home = () => {
                     latitude: car.latitude,
                     longitude: car.longitude,
                   }}
-                  title={`${car.brand} ${car.model}`}
-                  description={`Distance: ${distanceString}, License Plate: ${car.license_plate} Year: ${car.year} seats: ${car.seats}`}
-                  pinColor={car.reserved ? 'red' : 'green'}
+                  pinColor="blue"
+                  onPress={() => {
+                    console.log('Vittusaatana');
+                    setSelectedCar(car);
+                    setDistanceToSelectedCar(distanceString);
+                    setCarModalVisible(true);
+                  }}
+                  image={
+                    car.dealership_id === 1
+                      ? require('../components/logos/zapp.png')
+                      : require('../components/logos/other.png')
+                  }
                 />
               );
             })}
         </MapView>
+
+        <CarModal
+          visible={carModalVisible}
+          setCarModalVisible={setCarModalVisible}
+          selectedCar={selectedCar}
+          distanceToSelectedCar={distanceToSelectedCar}
+        />
 
         <CustomOpenButton
           icon="menu"
@@ -504,7 +556,6 @@ const Home = () => {
             </View>
           </View>
         </Modal>
-
         <BottomSheet
           index={0}
           snapPoints={snapPoints}
@@ -526,29 +577,59 @@ const Home = () => {
           }}
         >
           <BottomSheetModalProvider>
-            <BottomSheetView className="max-h-1/2">
+            <BottomSheetView className="max-h-96">
               <ScrollView>
-                {cars.map((car) => (
-                  <TouchableOpacity
-                    key={car.id}
-                    onPress={() => {
-                      mapRef.current?.animateToRegion({
-                        latitude: car.latitude,
-                        longitude: car.longitude,
-                        latitudeDelta: 0.01,
-                        longitudeDelta: 0.01,
-                      });
-                    }}
-                    className="flex flex-row justify-between items-center p-4 border-b border-gray-200"
-                  >
-                    <Text>{car.brand}</Text>
-                    <Ionicons
-                      name="chevron-forward-outline"
-                      size={24}
-                      color="#007F5F"
-                    />
-                  </TouchableOpacity>
-                ))}
+                {sortedCars.map((car) => {
+                  if (!userLocation) return null;
+
+                  const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    car.latitude,
+                    car.longitude,
+                  );
+
+                  const distanceString =
+                    distance < 1
+                      ? `${(distance * 1000).toFixed(0)} m`
+                      : `${distance.toFixed(2)} km`;
+
+                  return (
+                    <TouchableOpacity
+                      key={car.id}
+                      onPress={() => {
+                        console.log('Vittusaatana');
+                        setSelectedCar(car);
+                        setDistanceToSelectedCar(distanceString);
+                        setCarModalVisible(true);
+                      }}
+                      className="flex flex-row justify-between items-center py-4 px-6"
+                    >
+                      <Image
+                        className="h-20 flex-1 rounded-lg"
+                        resizeMode="contain"
+                        source={require('../components/logos/Zapp-auto-musta.png')}
+                      />
+                      <View className="flex-1 flex flex-col justify-start items-start">
+                        <Text className="text-lg">
+                          {car.dealership_id === 1 ? 'ZAPP ' : ''}
+                          {car.brand} {car.model}
+                        </Text>
+                        {car.dealership_id !== 1 && (
+                          <Text className="text-secondary">
+                            {
+                              dealerships.find(
+                                (d) => d.id === car.dealership_id,
+                              )?.name
+                            }
+                          </Text>
+                        )}
+                        <Text className="">Tähän osoite</Text>
+                        <Text className="text-md">{distanceString}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
               </ScrollView>
             </BottomSheetView>
           </BottomSheetModalProvider>

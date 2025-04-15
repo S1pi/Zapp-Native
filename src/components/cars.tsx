@@ -389,4 +389,17 @@ export const cars = [
     reserved: false,
     parking_zone_id: 21,
   },
+  {
+    id: 31,
+    brand: 'BMW',
+    model: 'IX',
+    year: '2023',
+    license_plate: 'ULL-15',
+    seats: 5,
+    latitude: 60.224123,
+    longitude: 24.758088,
+    dealership_id: 2,
+    reserved: false,
+    parking_zone_id: 22,
+  },
 ];
