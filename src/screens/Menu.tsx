@@ -55,6 +55,7 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
         shadowRadius: 4,
         elevation: 5,
         paddingTop: '30%',
+        zIndex: 100,
       }}
     >
       <BackButton onPress={onClose} size={35} />
