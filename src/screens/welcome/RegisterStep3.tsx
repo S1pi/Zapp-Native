@@ -19,6 +19,7 @@ import {CameraView, useCameraPermissions} from 'expo-camera';
 import {useForm} from 'react-hook-form';
 import {RegisterStep3Data} from '../../../types/user';
 import {Ionicons} from '@expo/vector-icons';
+import {PictureTakingModal} from '../../components/PictureTakingModal';
 
 {
   /* Kuvan ottaminen homma tässä */
@@ -50,6 +51,7 @@ const RegisterStep3 = () => {
   const [uri1, setUri1] = useState<string | undefined>(undefined);
   const [uri2, setUri2] = useState<string | undefined>(undefined);
   const [side, setSide] = useState<'front' | 'back' | null>(null);
+  const [showCamera, setShowCamera] = useState(false);
 
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -83,16 +85,16 @@ const RegisterStep3 = () => {
     navigation.navigate('RegisterStep4', {step3Data: allData});
   };
 
-  const takePicture = async () => {
-    const photo = await ref.current?.takePictureAsync();
-    if (side === 'front') {
-      setUri1(photo?.uri);
-    }
-    if (side === 'back') {
-      setUri2(photo?.uri);
-    }
-    console.log('photo: ', photo);
-  };
+  // const takePicture = async () => {
+  //   const photo = await ref.current?.takePictureAsync();
+  //   if (side === 'front') {
+  //     setUri1(photo?.uri);
+  //   }
+  //   if (side === 'back') {
+  //     setUri2(photo?.uri);
+  //   }
+  //   console.log('photo: ', photo);
+  // };
 
   if (!permission) {
     console.log('Camera permission is null');
@@ -121,10 +123,17 @@ const RegisterStep3 = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white p-4">
+    <SafeAreaView className="flex-1 bg-white p-4 h-full">
       <BackButton />
+      <PictureTakingModal
+        setUri1={setUri1}
+        setUri2={setUri2}
+        side={side}
+        showCamera={showCamera}
+        setShowCamera={setShowCamera}
+      />
       <View className="flex px-6 h-full">
-        <View className="flex-1">
+        <View className="flex-1 mb-10">
           <View className="flex-row justify-center my-4">
             <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
             <View className="w-8 h-8 rounded-full bg-aqua-gem mx-1" />
@@ -136,18 +145,35 @@ const RegisterStep3 = () => {
           </Text>
         </View>
 
-        <View className="flex-3 flex justify-center items-center gap-8 bg-card-background rounded-xl p-6 shadow-md">
+        <View className="flex-2 flex justify-center items-center gap-8 bg-card-background rounded-xl p-6 shadow-md">
           <View className="w-full justify-between items-center gap-2">
             <Text className="text-sm self-start text-secondary font-semibold">
               Picture of driverlicense frontside
             </Text>
             <Pressable
-              className={`border-2 border-dashed w-full h-20 ${side === 'front' ? 'border-2 border-sunshine' : 'border-2 border-dashed border-seabed-green'} transition-all ease-in duration-50 flex justify-center items-center flex-row gap-2`}
-              onPress={() => setSide('front')}
+              className={`w-full ${side === 'front' ? 'border-4 border-sunshine' : 'border-2 border-dashed border-seabed-green'} transition-all ease-in duration-50 flex justify-center items-center flex-row gap-2`}
+              onPress={() => {
+                setSide('front');
+                setShowCamera(true);
+              }}
             >
-              {/* <Image source={{uri: uri1}} className="w-full h-full" /> */}
-              <Ionicons name="camera-outline" size={50} color="#093331" />
-              <Text className="text-sm text-seperator-line">Add picture</Text>
+              {uri1 ? (
+                <Image
+                  source={{uri: uri1}}
+                  className="w-full"
+                  style={{
+                    aspectRatio: 4 / 3,
+                    resizeMode: 'cover',
+                  }}
+                />
+              ) : (
+                <View className="w-full h-20 flex justify-center items-center">
+                  <Ionicons name="camera-outline" size={50} color="#093331" />
+                  <Text className="text-sm text-seperator-line">
+                    Add picture
+                  </Text>
+                </View>
+              )}
             </Pressable>
           </View>
           <View className="w-full justify-between items-center gap-2">
@@ -155,12 +181,30 @@ const RegisterStep3 = () => {
               Picture of driverlicense backside
             </Text>
             <Pressable
-              className={`w-full h-20 ${side === 'back' ? 'border-2 border-sunshine' : 'border-2 border-dashed border-seabed-green'} transition-all ease-in duration-50 flex justify-center items-center flex-row gap-2`}
-              onPress={() => setSide('back')}
+              className={`w-full ${side === 'back' ? 'border-4 border-sunshine' : 'border-2 border-dashed border-seabed-green'} transition-all ease-in duration-50 flex justify-center items-center flex-row gap-2`}
+              onPress={() => {
+                // Open camera here
+                setSide('back');
+                setShowCamera(true);
+              }}
             >
-              {/* <Image source={{uri: uri2}} className="w-full h-full" /> */}
-              <Ionicons name="camera-outline" size={50} color="#093331" />
-              <Text className="text-sm text-seperator-line">Add picture</Text>
+              {uri2 ? (
+                <Image
+                  source={{uri: uri2}}
+                  className="w-full h-full"
+                  style={{
+                    aspectRatio: 4 / 3,
+                    resizeMode: 'cover',
+                  }}
+                />
+              ) : (
+                <View className="w-full h-20 flex justify-center items-center">
+                  <Ionicons name="camera-outline" size={50} color="#093331" />
+                  <Text className="text-sm text-seperator-line">
+                    Add picture
+                  </Text>
+                </View>
+              )}
             </Pressable>
           </View>
         </View>

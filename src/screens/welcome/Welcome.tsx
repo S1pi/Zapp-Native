@@ -14,7 +14,7 @@ const Welcome = () => {
           className="w-full"
           resizeMode="contain"
         />
-        <View>
+        <View className="mb-4">
           <Text className="text-xl text-center font-bold text-secondary pb-6">
             Welcome to Zapp
           </Text>
