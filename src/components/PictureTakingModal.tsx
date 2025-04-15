@@ -159,12 +159,12 @@ export const PictureTakingModal = ({
         </View>
 
         <CustomButton
-          className="absolute top-safe-offset-0 left-4 w-14 flex justify-center items-center rounded-full"
+          className="absolute top-safe-offset-0 left-4 max-w-14 flex justify-center items-center rounded-full"
           onPress={() => {
             setShowCamera(false);
           }}
         >
-          <Ionicons name="close" size={32} color="white" />
+          <Ionicons name="close" size={36} color="white" />
         </CustomButton>
 
         <CustomButton
