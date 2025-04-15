@@ -140,7 +140,7 @@ export const PictureTakingModal = ({
           facing="back"
           mode="picture"
           ref={ref}
-          ratio="4:3"
+          ratio="1:1"
         />
 
         {/* Dashed lines to represent space for driving license */}
