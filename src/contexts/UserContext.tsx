@@ -2,7 +2,12 @@ import React, {createContext, useEffect, useState} from 'react';
 import {set} from 'react-hook-form';
 import {UseUser} from '../hooks/apiHooks';
 import {LoginResponse} from '../../types/responses';
-import {Credentials, UserWithoutPassword} from '../../types/user';
+import {
+  Credentials,
+  User,
+  UserUpdate,
+  UserWithoutPassword,
+} from '../../types/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {fetchData} from '../utils/functions';
 
@@ -11,13 +16,14 @@ type UserContextType = {
   handleLogin: (user: Credentials) => void;
   handleAutoLogin: () => Promise<void>;
   handleLogout: () => void;
+  modifyUser: (userData: UserUpdate) => Promise<void>;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = ({children}: {children: React.ReactNode}) => {
   const [user, setUser] = useState<UserWithoutPassword | null>(null);
-  const {postLogin, getUserByToken} = UseUser();
+  const {postLogin, getUserByToken, updateUser} = UseUser();
 
   const handleLogin = async (credentials: Credentials) => {
     try {
@@ -46,6 +52,21 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
       setUser(user);
     } catch (error) {
       console.error('Login error:', error);
+    }
+  };
+
+  const modifyUser = async (userData: UserUpdate) => {
+    try {
+      const response = await updateUser(userData);
+      if (!response) {
+        console.log('User update failed');
+        return;
+      }
+      setUser(response);
+      return;
+    } catch (error) {
+      console.error('Error updating userrrr:', error);
+      throw new Error('Error updating user');
     }
   };
 
@@ -87,7 +108,7 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   return (
     <UserContext.Provider
-      value={{user, handleLogin, handleLogout, handleAutoLogin}}
+      value={{user, handleLogin, handleLogout, handleAutoLogin, modifyUser}}
     >
       {children}
     </UserContext.Provider>

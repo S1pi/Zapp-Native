@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {EmailOrPhoneResponse, LoginResponse} from '../../types/responses';
+import {User, UserUpdate} from '../../types/user';
 import {fetchData} from '../utils/functions';
 // import {fetch} from 'expo/fetch';
 
@@ -98,11 +100,36 @@ const UseUser = () => {
     }
   };
 
+  const updateUser = async (userData: UserUpdate) => {
+    const token = await AsyncStorage.getItem('userToken');
+    console.log('token', token);
+    const options = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // 'Content-Type': 'multipart/form-data',
+      },
+      body: JSON.stringify(userData),
+    };
+
+    try {
+      const response = await fetchData<User>(
+        process.env.EXPO_PUBLIC_API + '/users/modify/user',
+        options,
+      );
+      return response;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
+  };
+
   return {
     postLogin,
     getUserByToken,
     postRegister,
     checkPhoneAndEmailAvailability,
+    updateUser,
   };
 };
 

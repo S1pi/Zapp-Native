@@ -21,6 +21,11 @@ type UserWithoutPassword = Omit<User, 'password'>;
 
 type UserCreate = Omit<User, 'id' | 'created_at' | 'validated' | 'role'>;
 
+type UserUpdate = Omit<
+  User,
+  'id' | 'created_at' | 'validated' | 'role' | 'password'
+>;
+
 type TokenData = Pick<User, 'id' | 'validated' | 'role'>;
 
 type UserRegisterData = {
@@ -54,6 +59,7 @@ export type {
   UserWithoutPassword,
   TokenData,
   Credentials,
+  UserUpdate,
   UserRegisterData,
   RegisterStep1Data,
   RegisterStep2Data,
