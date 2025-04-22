@@ -1,5 +1,6 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Car} from '../screens/Home';
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -19,6 +20,7 @@ export type AppNavigationParamList = {
   Usage: undefined;
   Payments: undefined;
   Contact: undefined;
+  OnDrive: {car: Car};
 };
 
 export type TabScreenParamList = {

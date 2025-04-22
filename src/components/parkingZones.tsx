@@ -320,13 +320,13 @@ export const parkingZones = [
   },
   {
     id: 30,
-    name: 'Munkkivuori Center',
-    description: 'Central area parking near Munkkivuori.',
+    name: 'Vermo Parking',
+    description: 'Parking near Vermo horse racing track.',
     location: [
-      {latitude: 60.213, longitude: 24.834}, // top-left
-      {latitude: 60.213, longitude: 24.842}, // top-right
-      {latitude: 60.211, longitude: 24.842}, // bottom-right
-      {latitude: 60.211, longitude: 24.834}, // bottom-left
+      {latitude: 60.216814, longitude: 24.829833}, // top-left
+      {latitude: 60.216814, longitude: 24.845188}, // top-right
+      {latitude: 60.212382, longitude: 24.845188}, // bottom-right
+      {latitude: 60.212382, longitude: 24.829833}, // bottom-left
     ],
   },
 ];

@@ -1,3 +1,4 @@
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
@@ -18,6 +19,8 @@ import Usage from '../screens/Usage';
 import Payments from '../screens/Payments';
 import Contact from '../screens/Contact';
 import Help from '../screens/Help';
+import App from '../App';
+import OnDrive from '../screens/OnDrive';
 
 const Tab = createBottomTabNavigator();
 
@@ -117,6 +120,8 @@ const AppStackScreen = () => {
       <AppStack.Screen name="Contact" component={Contact} />
       <AppStack.Screen name="Help" component={Help} />
       <AppStack.Screen name="Usage" component={Usage} />
+      <AppStack.Screen name="OnDrive" component={OnDrive} />
+      {/* Add other screens here */}
     </AppStack.Navigator>
   );
 };

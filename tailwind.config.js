@@ -18,7 +18,9 @@ module.exports = {
       'night-sky-blue': '#14213d',
       flame: '#fb5607',
       sunshine: '#ffb703',
-
+      'light-grey': '#f0f0f0',
+      grey: '#7d7d7d',
+      'blue-link': '#0077cc',
       'seperator-line': '#a19f9f',
     },
     fontSize: {
@@ -32,6 +34,17 @@ module.exports = {
       h1: '2.25rem',
       h2: '2rem',
       h3: '1.75rem',
+    },
+    opacity: {
+      10: '0.1',
+      20: '0.2',
+      30: '0.3',
+      40: '0.4',
+      50: '0.5',
+      60: '0.6',
+      70: '0.7',
+      80: '0.8',
+      90: '0.9',
     },
   },
   plugins: [],

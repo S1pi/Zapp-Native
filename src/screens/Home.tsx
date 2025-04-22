@@ -30,7 +30,6 @@ import {cars} from '../components/cars';
 import {dealerships} from '../components/dealerships';
 import {parkingZones} from '../components/parkingZones';
 import {CarModal} from '../components/CarModal';
-import {set} from 'react-hook-form';
 
 export type Car = {
   id: number;
@@ -598,7 +597,7 @@ const Home = () => {
                     <TouchableOpacity
                       key={car.id}
                       onPress={() => {
-                        console.log('Vittusaatana');
+                        //console.log('Vittusaatana');
                         setSelectedCar(car);
                         setDistanceToSelectedCar(distanceString);
                         setCarModalVisible(true);
@@ -624,7 +623,7 @@ const Home = () => {
                             }
                           </Text>
                         )}
-                        <Text className="">Tähän osoite</Text>
+                        <Text className="">Tähän osoite????</Text>
                         <Text className="text-md">{distanceString}</Text>
                       </View>
                     </TouchableOpacity>
