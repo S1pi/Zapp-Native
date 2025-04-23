@@ -10,6 +10,8 @@ interface CustomInputProps {
   rules?: object;
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
   secureTextEntry?: boolean;
+  multiline?: boolean;
+  lineheight?: number;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -20,6 +22,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
   keyboardType = 'default',
   secureTextEntry = false,
   className,
+  multiline = false,
+  lineheight = 1,
 }) => {
   return (
     <View className={className}>
@@ -31,6 +35,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
           <>
             <Text className="text-sm text-secondary">{label}</Text>
             <TextInput
+              multiline={multiline}
+              numberOfLines={lineheight}
               placeholder={label}
               keyboardType={keyboardType}
               secureTextEntry={secureTextEntry}

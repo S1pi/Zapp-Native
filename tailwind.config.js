@@ -22,6 +22,8 @@ module.exports = {
       grey: '#7d7d7d',
       'blue-link': '#0077cc',
       'seperator-line': '#a19f9f',
+      'card-background': '#f6f6f6',
+      'card-stroke': '#d6d6d6',
     },
     fontSize: {
       xs: '0.75rem',
