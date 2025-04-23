@@ -59,6 +59,7 @@ const Menu = ({visible, onClose}: {visible: boolean; onClose: () => void}) => {
       }}
     >
       <BackButton onPress={onClose} size={35} />
+
       <View className="flex flex-row items-center gap-4 mt-6 mb-10">
         <View className="w-20 h-20 rounded-full p-0 justify-center items-center bg-primary">
           <Ionicons name="person" size={30} color="#cccc" />

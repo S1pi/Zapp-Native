@@ -567,7 +567,7 @@ const Home = () => {
             width: 50,
             height: 5,
             borderRadius: 5,
-            margin: 10,
+            margin: 15,
           }}
           backgroundStyle={{
             backgroundColor: 'white',
@@ -597,7 +597,7 @@ const Home = () => {
                     <TouchableOpacity
                       key={car.id}
                       onPress={() => {
-                        //console.log('Vittusaatana');
+                        console.log('Vittusaatana');
                         setSelectedCar(car);
                         setDistanceToSelectedCar(distanceString);
                         setCarModalVisible(true);
