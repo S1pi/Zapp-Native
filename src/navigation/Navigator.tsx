@@ -21,6 +21,7 @@ import Contact from '../screens/Contact';
 import Help from '../screens/Help';
 import App from '../App';
 import OnDrive from '../screens/OnDrive';
+import CompleteDrive from '../screens/CompleteDrive';
 
 const Tab = createBottomTabNavigator();
 
@@ -121,6 +122,7 @@ const AppStackScreen = () => {
       <AppStack.Screen name="Help" component={Help} />
       <AppStack.Screen name="Usage" component={Usage} />
       <AppStack.Screen name="OnDrive" component={OnDrive} />
+      <AppStack.Screen name="CompleteDrive" component={CompleteDrive} />
       {/* Add other screens here */}
     </AppStack.Navigator>
   );

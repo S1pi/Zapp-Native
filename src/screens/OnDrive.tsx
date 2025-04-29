@@ -1,19 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  useRoute,
-  RouteProp,
-  useFocusEffect,
-  useNavigation,
-} from '@react-navigation/native';
+import {useRoute, RouteProp, useNavigation} from '@react-navigation/native';
 import {Car} from './Home';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import MapView, {Polygon, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import {parkingZones} from '../components/parkingZones';
-import CustomOpenButton from '../components/CustomOpenButton';
-import {AuthScreenNavigationProp} from '../types/navigationTypes';
+import {MainNavigationProp} from '../types/navigationTypes';
 import HowToEndDriveModal from '../components/HowToEndDriveModal';
-import {set} from 'react-hook-form';
 
 type OnDriveRouteParams = {
   car: Car;
@@ -127,7 +120,7 @@ const OnDrive = () => {
     }
   };
 
-  const navigation = useNavigation<AuthScreenNavigationProp>();
+  const navigation = useNavigation<MainNavigationProp>();
 
   return (
     <View className="flex flex-1 w-full h-full bg-secondary">
@@ -207,8 +200,12 @@ const OnDrive = () => {
           }`}
           onPress={() => {
             if (insideParkingZone) {
-              console.log('LOPETTAA AJON');
-              navigation.goBack();
+              console.log('VOI saatana vittu');
+              console.log(insideParkingZone);
+              navigation.navigate('AppStack', {
+                screen: 'CompleteDrive',
+                params: {car: car},
+              });
             }
           }}
           disabled={!insideParkingZone}
