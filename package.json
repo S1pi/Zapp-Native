@@ -32,6 +32,7 @@
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.7",
     "react-native-gesture-handler": "~2.20.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "1.18.0",
     "react-native-maps-directions": "^1.9.0",
     "react-native-reanimated": "~3.16.1",

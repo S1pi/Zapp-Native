@@ -26,7 +26,7 @@ import {PictureTakingModal} from '../../components/PictureTakingModal';
 }
 
 {
-  /* 
+  /*
       <View className="h-[50%]">
         <CameraView
           style={{height: 300}}
