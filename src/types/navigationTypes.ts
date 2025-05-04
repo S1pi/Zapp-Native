@@ -1,6 +1,6 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Car} from '../screens/Home';
+import {Car} from './car';
 
 export type AuthStackParamList = {
   Loading: any;

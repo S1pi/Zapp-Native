@@ -17,7 +17,7 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import {CameraView, useCameraPermissions} from 'expo-camera';
 import {useForm} from 'react-hook-form';
-import {RegisterStep3Data} from '../../../types/user';
+import {RegisterStep3Data} from '../../types/user';
 import {Ionicons} from '@expo/vector-icons';
 import {PictureTakingModal} from '../../components/PictureTakingModal';
 

@@ -1,13 +1,13 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {set} from 'react-hook-form';
 import {UseUser} from '../hooks/apiHooks';
-import {LoginResponse} from '../../types/responses';
+import {LoginResponse} from '../types/responses';
 import {
   Credentials,
   User,
   UserUpdate,
   UserWithoutPassword,
-} from '../../types/user';
+} from '../types/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {fetchData} from '../utils/functions';
 

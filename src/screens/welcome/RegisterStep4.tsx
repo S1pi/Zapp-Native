@@ -10,7 +10,7 @@ import BackButton from '../../components/BackButton';
 import {useUserContext} from '../../hooks/ContextHooks';
 import {UseUser} from '../../hooks/apiHooks';
 import * as FileSystem from 'expo-file-system';
-import {UserRegisterData} from '../../../types/user';
+import {UserRegisterData} from '../../types/user';
 
 // JUST HERE FOR LEGACY PURPOSES R.I.P. OLD CODE!!!!
 // const uriToBase64 = async (uri: string): Promise<string> => {

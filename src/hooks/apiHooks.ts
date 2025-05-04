@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {EmailOrPhoneResponse, LoginResponse} from '../../types/responses';
-import {User, UserUpdate} from '../../types/user';
+import {EmailOrPhoneResponse, LoginResponse} from '../types/responses';
+import {User, UserUpdate} from '../types/user';
 import {fetchData} from '../utils/functions';
 // import {fetch} from 'expo/fetch';
 

@@ -16,7 +16,7 @@ import CustomButton from '../components/CustomButton';
 import BackButton from '../components/BackButton';
 import CustomInput from '../components/CustomInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {UserUpdate} from '../../types/user';
+import {UserUpdate} from '../types/user';
 
 const Account = () => {
   const {user, handleLogout, modifyUser} = useUserContext();

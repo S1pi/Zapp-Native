@@ -12,7 +12,7 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useForm} from 'react-hook-form';
-import {RegisterStep1Data} from '../../../types/user';
+import {RegisterStep1Data} from '../../types/user';
 import {UseUser} from '../../hooks/apiHooks';
 
 const RegisterStep1 = () => {

@@ -12,7 +12,7 @@ import CustomButton from '../../components/CustomButton';
 import BackButton from '../../components/BackButton';
 import CustomInput from '../../components/CustomInput';
 import {useUserContext} from '../../hooks/ContextHooks';
-import {Credentials} from '../../../types/user';
+import {Credentials} from '../../types/user';
 
 const Login = () => {
   const initValues = {
