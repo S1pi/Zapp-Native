@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {EmailOrPhoneResponse, LoginResponse} from '../types/responses';
 import {User, UserUpdate} from '../types/user';
 import {fetchData} from '../utils/functions';
-// import {fetch} from 'expo/fetch';
 
 const UseUser = () => {
   const postLogin = async (
@@ -55,13 +54,10 @@ const UseUser = () => {
   };
 
   const postRegister = async (userData: FormData) => {
-    // console.log('userData from postReg', userData);
-
     const options = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        // 'Content-Type': 'multipart/form-data',
       },
       body: userData,
     };
@@ -107,7 +103,6 @@ const UseUser = () => {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
-        // 'Content-Type': 'multipart/form-data',
       },
       body: JSON.stringify(userData),
     };

@@ -6,7 +6,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Ionicons} from '@expo/vector-icons';
-import {View} from 'react-native-reanimated/lib/typescript/Animated';
 
 interface CustomOpenButtonProps extends PressableProps {
   icon: React.ComponentProps<typeof Ionicons>['name'];

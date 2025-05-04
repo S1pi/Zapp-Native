@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useMemo, useRef} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {useState, useCallback, useMemo, useRef} from 'react';
+import {View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';

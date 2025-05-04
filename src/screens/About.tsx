@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {View, Text, Pressable, Modal, ScrollView} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import BackButton from '../components/BackButton';

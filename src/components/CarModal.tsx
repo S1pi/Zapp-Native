@@ -1,17 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {Car} from '../screens/Home';
+import {Modal, View, Text, Image, TouchableOpacity} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import {useNavigation} from '@react-navigation/native';
 import {MainNavigationProp} from '../types/navigationTypes';
+import {Car} from '../types/car';
 
 type CarModalProps = {
   visible: boolean;

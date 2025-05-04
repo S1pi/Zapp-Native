@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Modal, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {Car} from '../types/car';

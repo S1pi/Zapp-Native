@@ -1,10 +1,6 @@
-import React from 'react';
 import {
   Alert,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,

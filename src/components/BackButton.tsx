@@ -1,5 +1,4 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
 import {Pressable, PressableProps} from 'react-native';
 import Animated, {
   useSharedValue,
