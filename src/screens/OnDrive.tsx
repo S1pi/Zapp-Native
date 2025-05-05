@@ -121,7 +121,7 @@ const OnDrive = () => {
     }
   };
 
-  const navigation = useNavigation<AuthScreenNavigationProp>();
+  const navigation = useNavigation<MainNavigationProp>();
 
   return (
     <View className="flex flex-1 w-full h-full bg-secondary">
@@ -201,8 +201,12 @@ const OnDrive = () => {
           }`}
           onPress={() => {
             if (insideParkingZone) {
-              console.log('LOPETTAA AJON');
-              navigation.goBack();
+              console.log('VOI saatana vittu');
+              console.log(insideParkingZone);
+              navigation.navigate('AppStack', {
+                screen: 'CompleteDrive',
+                params: {car: car},
+              });
             }
           }}
           disabled={!insideParkingZone}

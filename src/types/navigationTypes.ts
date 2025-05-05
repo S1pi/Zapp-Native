@@ -22,6 +22,7 @@ export type AppNavigationParamList = {
   Payments: undefined;
   Contact: undefined;
   OnDrive: {car: Car};
+  CompleteDrive: {car: Car};
 };
 
 export type TabScreenParamList = {
