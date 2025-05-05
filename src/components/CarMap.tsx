@@ -30,8 +30,8 @@ const CarMap = ({
       distance: haversine(
         userLocation.latitude,
         userLocation.longitude,
-        c.latitude,
-        c.longitude,
+        Number(c.latitude),
+        Number(c.longitude),
       ),
     }));
   }, [cars, userLocation]);

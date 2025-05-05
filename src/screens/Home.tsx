@@ -70,7 +70,7 @@ const Home = () => {
   // Cars
   const filteredCars = useMemo(() => {
     return allCars.filter((c) => {
-      if (c.reserved) return false;
+      if (c.is_reserved) return false;
       if (filter.brands.length && !filter.brands.includes(c.brand))
         return false;
       if (filter.seats.length && !filter.seats.includes(c.seats)) return false;
