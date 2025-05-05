@@ -5,7 +5,10 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import MapView, {Polygon, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import {parkingZones} from '../components/parkingZones';
-import {AuthScreenNavigationProp} from '../types/navigationTypes';
+import {
+  AuthScreenNavigationProp,
+  MainNavigationProp,
+} from '../types/navigationTypes';
 import HowToEndDriveModal from '../components/HowToEndDriveModal';
 import {Car} from '../types/car';
 
