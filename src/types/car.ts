@@ -8,7 +8,7 @@ export interface Car {
   latitude: number;
   longitude: number;
   dealership_id: number;
-  reserved: boolean;
+  is_reserved: boolean;
   parking_zone_id: number;
   showcase_image_url?: string;
 }
