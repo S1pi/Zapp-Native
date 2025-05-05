@@ -14,6 +14,7 @@ import {useZappStore} from '../utils/store';
 
 type OnDriveRouteParams = {
   car: Car;
+  driveId: number;
 };
 
 const OnDrive = () => {
@@ -30,7 +31,7 @@ const OnDrive = () => {
     latitudeDelta: number;
     longitudeDelta: number;
   } | null>(null);
-  const {car} = route.params;
+  const {car, driveId} = route.params;
 
   const mapRef = useRef<MapView | null>(null);
   const [seconds, setSeconds] = useState(0);
@@ -205,11 +206,10 @@ const OnDrive = () => {
           }`}
           onPress={() => {
             if (insideParkingZone) {
-              console.log('VOI saatana vittu');
               console.log(insideParkingZone);
               navigation.navigate('AppStack', {
                 screen: 'CompleteDrive',
-                params: {car: car},
+                params: {car: car, driveId: driveId},
               });
             }
           }}

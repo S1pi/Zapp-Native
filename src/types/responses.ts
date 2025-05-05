@@ -32,3 +32,8 @@ export type DealerShipsResponse = {
   message: string;
   dealerships: Dealership[];
 };
+
+export type DriveStartResponse = {
+  message: string;
+  carId: number;
+};

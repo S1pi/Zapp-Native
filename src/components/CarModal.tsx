@@ -5,6 +5,8 @@ import * as Location from 'expo-location';
 import {useNavigation} from '@react-navigation/native';
 import {MainNavigationProp} from '../types/navigationTypes';
 import {Car} from '../types/car';
+import {useDrive} from '../hooks/apiHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type CarModalProps = {
   visible: boolean;
@@ -21,6 +23,7 @@ export const CarModal = ({
   selectedCar,
   distanceToSelectedCar,
 }: CarModalProps) => {
+  const {startDrive} = useDrive();
   const [canStartDriving, setCanStartDriving] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(true);
 
@@ -62,6 +65,27 @@ export const CarModal = ({
       checkDistance();
     }
   }, [visible, selectedCar]);
+
+  const handleStartDrive = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+    if (!selectedCar) return;
+    const {status} = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') return;
+    try {
+      const driveId = await startDrive(selectedCar.id, token);
+      setCarModalVisible(false);
+      navigation.navigate('AppStack', {
+        screen: 'OnDrive',
+        params: {car: selectedCar, driveId: driveId},
+      });
+    } catch (error) {
+      console.error('Error starting drive:', error);
+    }
+  };
 
   return (
     <Modal
@@ -111,11 +135,7 @@ export const CarModal = ({
                 }`}
                 onPress={() => {
                   if (canStartDriving) {
-                    setCarModalVisible(false);
-                    navigation.navigate('AppStack', {
-                      screen: 'OnDrive',
-                      params: {car: selectedCar},
-                    });
+                    handleStartDrive();
                   }
                 }}
                 disabled={!canStartDriving || loadingLocation}

@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   AllCarsResponse,
   DealerShipsResponse,
+  DriveStartResponse,
   EmailOrPhoneResponse,
   LoginResponse,
   ParkingZoneResponse,
@@ -239,4 +240,50 @@ const useMap = () => {
   };
 };
 
-export {UseUser, useMap};
+const useDrive = () => {
+  const startDrive = async (carId: number, token: string) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({carId}),
+    };
+    try {
+      const response = await fetchData<DriveStartResponse>(
+        process.env.EXPO_PUBLIC_API + '/drive/start',
+        options,
+      );
+      return response.carId;
+    } catch (error) {
+      console.error('Error starting drive:', error);
+      throw error;
+    }
+  };
+
+  const endDrive = async (driveEndData: FormData, token: string) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: driveEndData,
+    };
+    try {
+      const response = await fetchData(
+        process.env.EXPO_PUBLIC_API + '/drive/end',
+        options,
+      );
+      return response;
+    } catch (error) {
+      console.error('Error ending drive:', error);
+      throw error;
+    }
+  };
+  return {
+    startDrive,
+    endDrive,
+  };
+};
+
+export {UseUser, useMap, useDrive};
