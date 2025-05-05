@@ -13,7 +13,7 @@ type CarModalProps = {
   distanceToSelectedCar: string | null;
 };
 
-const imageBaseUrl = 'http://192.168.1.67:3000';
+const imageBaseUrl = process.env.EXPO_PUBLIC_URL;
 
 export const CarModal = ({
   visible,

@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {SafeAreaView, Text, Button} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {MainNavigationProp} from '../types/navigationTypes';
-import {set} from 'react-hook-form';
-import {Car} from './Home';
+import {Car} from '../types/car';
 
 type OnDriveRouteParams = {
   car: Car;
