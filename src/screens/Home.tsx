@@ -11,7 +11,7 @@ import CarListSheet from '../components/CarListSheet';
 import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
 import {CarModal} from '../components/CarModal';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useMap} from '../hooks/apiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {cars as mockCars} from '../components/cars';
@@ -40,7 +40,7 @@ const Home = () => {
 
   // Map
   const mapRef = useRef<MapView | null>(null);
-  const listSheetRef = useRef(null);
+  const listSheetRef = useRef<BottomSheetModal>(null);
 
   const askLocation = useCallback(async () => {
     const {status} = await Location.requestForegroundPermissionsAsync();
@@ -68,6 +68,12 @@ const Home = () => {
       centerToUser();
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    if (userLocation) {
+      listSheetRef.current?.present();
+    }
+  }, [userLocation]);
 
   // Cars
   const filteredCars = useMemo(() => {
@@ -114,7 +120,7 @@ const Home = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView style={{flex: 1}}>
       <BottomSheetModalProvider>
         <View className="flex-1">
           <CarMap
@@ -150,14 +156,14 @@ const Home = () => {
             icon="car-sport"
             iconSize={20}
             color="white"
-            className="bg-sunshine bottom-24 right-5"
+            className="bg-sunshine bottom-1/3 right-5"
             onPress={centerToClosestCar}
           />
           <CustomOpenButton
             icon="location"
             iconSize={28}
             color="white"
-            className="bg-flame bottom-5 right-5"
+            className="bg-flame bottom-1/4 right-5"
             onPress={centerToUser}
           />
 
