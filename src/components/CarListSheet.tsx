@@ -50,7 +50,7 @@ const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
       ref={sheetRef}
     >
       <BottomSheetView className="max-h-96">
-        <ScrollView>
+        <ScrollView className="flex-1">
           {sorted.map((car) => {
             const distanceStr =
               car.distance < 1
