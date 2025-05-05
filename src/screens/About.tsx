@@ -11,7 +11,7 @@ const AboutScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <BackButton />
-      <Text className="text-h2 ml-20 mt-3">Account</Text>
+      <Text className="text-h2 ml-20 mt-3">About</Text>
       <View className="flex-1 bg-white px-5 pt-6">
         {/* Käyttöehdot */}
         <Pressable
