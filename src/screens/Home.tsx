@@ -1,11 +1,10 @@
-import {useState, useCallback, useMemo, useRef} from 'react';
+import {useState, useCallback, useMemo, useRef, useEffect} from 'react';
 import {View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import Menu from '../components/Menu';
 import CustomOpenButton from '../components/CustomOpenButton';
-import {cars as allCars} from '../components/cars';
 import CarMap from '../components/CarMap';
 import FilterModal, {Filter} from '../components/FilterModal';
 import CarListSheet from '../components/CarListSheet';
@@ -13,6 +12,9 @@ import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
 import {CarModal} from '../components/CarModal';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {useMap} from '../hooks/apiHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {cars as mockCars} from '../components/cars';
 
 const initialFilter: Filter = {brands: [], seats: [], companies: []};
 
@@ -25,6 +27,11 @@ const Home = () => {
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [distanceToSelectedCar, setDistanceToSelectedCar] =
     useState<string>('');
+
+  const {cars} = useMap();
+  const allCars = cars;
+  console.log('allCars', allCars);
+  console.log('mockCars', mockCars);
 
   const [userLocation, setUserLocation] = useState<{
     latitude: number;
@@ -55,6 +62,10 @@ const Home = () => {
       longitudeDelta: 0.01,
     });
   }, [askLocation]);
+
+  useEffect(() => {
+    centerToUser();
+  }, []);
 
   // Cars
   const filteredCars = useMemo(() => {

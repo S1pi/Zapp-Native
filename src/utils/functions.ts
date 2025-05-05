@@ -29,7 +29,7 @@ const fetchData = async <T>(
         throw new Error(JSON.stringify(errors));
       }
     } else if (typeof body === 'object' && 'error' in body) {
-      const errors = (body as any).error;
+      throw new Error((body as any).error);
     }
     throw new Error(
       `Error ${response.status}: ${typeof body === 'string' ? body : 'Unknown error'}`,

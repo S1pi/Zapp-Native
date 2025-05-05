@@ -1,8 +1,10 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet';
 import {TouchableOpacity, Image, View, Text, ScrollView} from 'react-native';
 import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
+import {useMap} from '../hooks/apiHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {dealerships} from './dealerships';
 
 interface Props {

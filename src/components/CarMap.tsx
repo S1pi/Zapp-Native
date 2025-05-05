@@ -1,8 +1,10 @@
-import React, {memo, useMemo, useCallback} from 'react';
+import React, {memo, useMemo, useCallback, useEffect} from 'react';
 import MapView, {Marker, Polygon} from 'react-native-maps';
 import {StyleSheet} from 'react-native';
 import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
+import {useMap} from '../hooks/apiHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {parkingZones} from './parkingZones';
 
 interface Props {

@@ -1,7 +1,18 @@
+import {parkingZones} from './../components/parkingZones';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {EmailOrPhoneResponse, LoginResponse} from '../types/responses';
+import {
+  AllCarsResponse,
+  DealerShipsResponse,
+  EmailOrPhoneResponse,
+  LoginResponse,
+  ParkingZoneResponse,
+} from '../types/responses';
 import {User, UserUpdate} from '../types/user';
 import {fetchData} from '../utils/functions';
+import {useEffect, useState} from 'react';
+import {Car, ParkingZone} from '../types/car';
+import {Dealership} from '../types/dealership';
+import {set} from 'react-hook-form';
 
 const UseUser = () => {
   const postLogin = async (
@@ -91,8 +102,9 @@ const UseUser = () => {
         options,
       );
       return response.available;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error checking availability: ', error);
+      throw new Error(error);
     }
   };
 
@@ -128,4 +140,100 @@ const UseUser = () => {
   };
 };
 
-export {UseUser};
+const useMap = () => {
+  console.log('useMap');
+  const getAllCars = async (token: string) => {
+    console.log('getAllCars');
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetchData<AllCarsResponse>(
+        process.env.EXPO_PUBLIC_API + '/cars/get/all',
+        options,
+      );
+      return response.cars;
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      throw error;
+    }
+  };
+
+  const getParkingZones = async (token: string) => {
+    console.log('getParkingZones');
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetchData<ParkingZoneResponse>(
+        process.env.EXPO_PUBLIC_API + '/parking-zones/all',
+        options,
+      );
+      return response.parkingZones;
+    } catch (error) {
+      console.error('Error fetching parking zones:', error);
+      throw error;
+    }
+  };
+
+  const getDealerShips = async (token: string) => {
+    console.log('getDealerShips');
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetchData<DealerShipsResponse>(
+        process.env.EXPO_PUBLIC_API + '/dealership/all',
+        options,
+      );
+      return response.dealerships;
+    } catch (error) {
+      console.error('Error fetching dealerships:', error);
+      throw error;
+    }
+  };
+
+  const setData = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    const dealerships = await getDealerShips(token);
+    const parkingZones = await getParkingZones(token);
+    const cars = await getAllCars(token);
+
+    setDealerships(dealerships);
+    setParkingZones(parkingZones);
+    setCars(cars);
+    console.log('dealerships', dealerships);
+    console.log('parkingZones', parkingZones);
+    console.log('cars', cars);
+  };
+
+  useEffect(() => {
+    setData();
+  }, []);
+
+  const [parkingZones, setParkingZones] = useState<ParkingZone[]>([]);
+  const [dealerships, setDealerships] = useState<Dealership[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
+
+  return {
+    parkingZones,
+    dealerships,
+    cars,
+  };
+};
+
+export {UseUser, useMap};

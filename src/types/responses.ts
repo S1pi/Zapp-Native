@@ -1,19 +1,34 @@
+import {Car, ParkingZone} from './car';
+import {Dealership} from './dealership';
 import {UserWithoutPassword} from './user';
 
-type CreatedUserSuccessResponse = {
+export type CreatedUserSuccessResponse = {
   message: string;
   user: UserWithoutPassword;
 };
 
-type LoginResponse = {
+export type LoginResponse = {
   message: string;
   token: string;
   user: UserWithoutPassword;
 };
 
-type EmailOrPhoneResponse = {
+export type EmailOrPhoneResponse = {
   message: string;
   available: boolean;
 };
 
-export type {CreatedUserSuccessResponse, LoginResponse, EmailOrPhoneResponse};
+export type AllCarsResponse = {
+  message: string;
+  cars: Car[];
+};
+
+export type ParkingZoneResponse = {
+  message: string;
+  parkingZones: ParkingZone[];
+};
+
+export type DealerShipsResponse = {
+  message: string;
+  dealerships: Dealership[];
+};
