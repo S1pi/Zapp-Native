@@ -13,7 +13,7 @@ interface Props {
   sheetRef: React.RefObject<BottomSheetModal | null>;
 }
 
-const imageBaseUrl = 'http://192.168.1.67:3000';
+const imageBaseUrl = process.env.EXPO_PUBLIC_URL;
 
 const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
   const dealerships = useZappStore((s) => s.dealers);
