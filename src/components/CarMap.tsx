@@ -23,33 +23,40 @@ const CarMap = ({
   disableGestures,
 }: Props) => {
   // Esilaskettu etäisyys joka autolle
-  const carsWithDistance = useMemo(() => {
-    if (!userLocation) return [];
-    return cars.map((c) => ({
-      ...c,
-      distance: haversine(
-        userLocation.latitude,
-        userLocation.longitude,
-        Number(c.latitude),
-        Number(c.longitude),
-      ),
-    }));
-  }, [cars, userLocation]);
+
+  // console.log('CARS ENNEN DISTANSEPASKAA: ', cars);
+
+  // const carsWithDistance = useMemo(() => {
+  //   if (!userLocation) return [];
+  //   return cars.map((c) => ({
+  //     ...c,
+  //     distance: haversine(
+  //       userLocation.latitude,
+  //       userLocation.longitude,
+  //       Number(c.latitude),
+  //       Number(c.longitude),
+  //     ),
+  //   }));
+  // }, [cars, userLocation]);
+
+  // console.log('CARS JÄLKEEN DISTANSEPASKAN: ', carsWithDistance);
 
   const handlePress = useCallback(
-    (car: Car, km: number) => {
+    (car: Car) => {
+      if (!userLocation) return;
+      const distance = haversine(
+        userLocation.latitude,
+        userLocation.longitude,
+        Number(car.latitude),
+        Number(car.longitude),
+      );
+      const km = distance;
       const str =
         km < 1 ? `${(km * 1_000).toFixed(0)} m` : `${km.toFixed(2)} km`;
       onCarPress(car, str);
     },
-    [onCarPress],
+    [onCarPress, userLocation],
   );
-
-  carsWithDistance.map((car) => {
-    console.log(
-      `Car ${car.model} is ${car.latitude}, ${car.longitude} and is type ${typeof car}}`,
-    );
-  });
 
   return (
     <MapView
@@ -72,19 +79,24 @@ const CarMap = ({
         />
       ))}
 
-      {carsWithDistance.map((car) => (
-        <Marker
-          key={car.id}
-          coordinate={{latitude: car.latitude, longitude: car.longitude}}
-          pinColor="blue"
-          onPress={() => handlePress(car, car.distance)}
-          image={
-            car.dealership_id === 1
-              ? require('./logos/zapp.png')
-              : require('./logos/other.png')
-          }
-        />
-      ))}
+      {cars.map(
+        (car) => (
+          console.log('YKSITTÄINEN AUTO: ', car),
+          (
+            <Marker
+              key={car.id}
+              coordinate={{latitude: car.latitude, longitude: car.longitude}}
+              pinColor="blue"
+              onPress={() => handlePress(car)}
+              image={
+                car.dealership_id === 1
+                  ? require('./logos/zapp.png')
+                  : require('./logos/other.png')
+              }
+            />
+          )
+        ),
+      )}
     </MapView>
   );
 };

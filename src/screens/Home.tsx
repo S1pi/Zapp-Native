@@ -31,7 +31,7 @@ const Home = () => {
   const {cars} = useMap();
   const allCars = cars;
   console.log('allCars', allCars);
-  console.log('mockCars', mockCars);
+  //console.log('mockCars', mockCars);
 
   const [userLocation, setUserLocation] = useState<{
     latitude: number;
@@ -64,7 +64,9 @@ const Home = () => {
   }, [askLocation]);
 
   useEffect(() => {
-    centerToUser();
+    setTimeout(() => {
+      centerToUser();
+    }, 2000);
   }, []);
 
   // Cars
@@ -81,7 +83,7 @@ const Home = () => {
         return false;
       return true;
     });
-  }, [filter]);
+  }, [filter, allCars]);
 
   const centerToClosestCar = useCallback(() => {
     if (!userLocation || !filteredCars.length) return;
