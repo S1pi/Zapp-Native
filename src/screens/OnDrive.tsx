@@ -170,11 +170,11 @@ const OnDrive = () => {
 
       {/* Bottom area */}
       <View className="relative flex-1 w-full h-full flex items-center bg-primary">
-        {car.showcase_image_url ? (
+        {car.car_showcase_url ? (
           <Image
             className="absolute -top-1/3 h-52 w-full"
             resizeMode="contain"
-            source={{uri: car.showcase_image_url}}
+            source={{uri: car.car_showcase_url}}
           />
         ) : (
           <Image
