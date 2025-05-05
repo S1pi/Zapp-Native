@@ -45,6 +45,12 @@ const CarMap = ({
     [onCarPress],
   );
 
+  carsWithDistance.map((car) => {
+    console.log(
+      `Car ${car.model} is ${car.latitude}, ${car.longitude} and is type ${typeof car}}`,
+    );
+  });
+
   return (
     <MapView
       ref={mapRef}
