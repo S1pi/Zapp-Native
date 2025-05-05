@@ -84,18 +84,14 @@ export const CarModal = ({
                 {selectedCar.dealership_id === 1 ? 'ZAPP' : ''}{' '}
                 {selectedCar.brand} {selectedCar.model}
               </Text>
-              {selectedCar.showcase_image_url ? (
+              {selectedCar.car_showcase_url ? (
                 <Image
                   className="h-52 w-full"
                   resizeMode="contain"
-                  source={{uri: selectedCar.showcase_image_url}}
+                  source={{uri: selectedCar.car_showcase_url}}
                 />
               ) : (
-                <Image
-                  className="h-52 w-full"
-                  resizeMode="contain"
-                  source={require('./logos/Zapp-auto-musta.png')}
-                />
+                <Text className="text-lg text-secondary">Ei kuvaa autost</Text>
               )}
               <Text className="text-lg mx-auto p-5">
                 {distanceToSelectedCar

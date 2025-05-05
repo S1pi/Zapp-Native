@@ -13,8 +13,7 @@ import {haversine} from '../utils/geo';
 import {CarModal} from '../components/CarModal';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useMap} from '../hooks/apiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {cars as mockCars} from '../components/cars';
+import {useZappStore} from '../utils/store';
 
 const initialFilter: Filter = {brands: [], seats: [], companies: []};
 
@@ -28,7 +27,9 @@ const Home = () => {
   const [distanceToSelectedCar, setDistanceToSelectedCar] =
     useState<string>('');
 
-  const {cars} = useMap();
+  // const {cars} = useMap();
+  const fetchAll = useZappStore((s) => s.fetchAll);
+  const cars = useZappStore((s) => s.cars);
   const allCars = cars;
   console.log('allCars', allCars);
   //console.log('mockCars', mockCars);
@@ -64,9 +65,8 @@ const Home = () => {
   }, [askLocation]);
 
   useEffect(() => {
-    setTimeout(() => {
-      centerToUser();
-    }, 2000);
+    centerToUser();
+    fetchAll();
   }, []);
 
   useEffect(() => {

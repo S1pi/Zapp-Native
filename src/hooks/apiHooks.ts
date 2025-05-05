@@ -202,37 +202,40 @@ const useMap = () => {
     }
   };
 
-  const setData = async () => {
-    const token = await AsyncStorage.getItem('userToken');
-    if (!token) {
-      console.error('Token not found');
-      return;
-    }
+  // const setData = async () => {
+  //   const token = await AsyncStorage.getItem('userToken');
+  //   if (!token) {
+  //     console.error('Token not found');
+  //     return;
+  //   }
 
-    const dealerships = await getDealerShips(token);
-    const parkingZones = await getParkingZones(token);
-    const cars = await getAllCars(token);
+  //   const dealerships = await getDealerShips(token);
+  //   const parkingZones = await getParkingZones(token);
+  //   const cars = await getAllCars(token);
 
-    setDealerships(dealerships);
-    setParkingZones(parkingZones);
-    setCars(cars);
-    console.log('dealerships', dealerships);
-    console.log('parkingZones', parkingZones);
-    console.log('cars', cars);
-  };
+  //   setDealerships(dealerships);
+  //   setParkingZones(parkingZones);
+  //   setCars(cars);
+  //   console.log('dealerships', dealerships);
+  //   console.log('parkingZones', parkingZones);
+  //   console.log('cars', cars);
+  // };
 
-  useEffect(() => {
-    setData();
-  }, []);
+  // useEffect(() => {
+  //   setData();
+  // }, []);
 
-  const [parkingZones, setParkingZones] = useState<ParkingZone[]>([]);
-  const [dealerships, setDealerships] = useState<Dealership[]>([]);
-  const [cars, setCars] = useState<Car[]>([]);
+  // const [parkingZones, setParkingZones] = useState<ParkingZone[]>([]);
+  // const [dealerships, setDealerships] = useState<Dealership[]>([]);
+  // const [cars, setCars] = useState<Car[]>([]);
 
   return {
-    parkingZones,
-    dealerships,
-    cars,
+    // parkingZones,
+    // dealerships,
+    // cars,
+    getAllCars,
+    getParkingZones,
+    getDealerShips,
   };
 };
 

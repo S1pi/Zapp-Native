@@ -4,8 +4,7 @@ import {StyleSheet} from 'react-native';
 import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
 import {useMap} from '../hooks/apiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {parkingZones} from './parkingZones';
+import {useZappStore} from '../utils/store';
 
 interface Props {
   cars: Car[];
@@ -22,6 +21,8 @@ const CarMap = ({
   mapRef,
   disableGestures,
 }: Props) => {
+  //   const {parkingZones} = useMap();
+  const parkingZones = useZappStore((s) => s.zones);
   // Esilaskettu etäisyys joka autolle
 
   // console.log('CARS ENNEN DISTANSEPASKAA: ', cars);

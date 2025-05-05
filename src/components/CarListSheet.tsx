@@ -4,8 +4,7 @@ import {TouchableOpacity, Image, View, Text, ScrollView} from 'react-native';
 import {Car} from '../types/car';
 import {haversine} from '../utils/geo';
 import {useMap} from '../hooks/apiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {dealerships} from './dealerships';
+import {useZappStore} from '../utils/store';
 
 interface Props {
   cars: Car[];
@@ -15,6 +14,7 @@ interface Props {
 }
 
 const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
+  const dealerships = useZappStore((s) => s.dealers);
   const sorted = useMemo(() => {
     if (!userLocation) return [];
     return cars
@@ -27,7 +27,8 @@ const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
           c.longitude,
         ),
       }))
-      .sort((a, b) => a.distance - b.distance);
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 6);
   }, [cars, userLocation]);
 
   return (
@@ -50,43 +51,38 @@ const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
       ref={sheetRef}
     >
       <BottomSheetView className="max-h-96">
-        <ScrollView>
-          {sorted.map((car) => {
-            const distanceStr =
-              car.distance < 1
-                ? `${(car.distance * 1_000).toFixed(0)} m`
-                : `${car.distance.toFixed(2)} km`;
+        {sorted.map((car) => {
+          const distanceStr =
+            car.distance < 1
+              ? `${(car.distance * 1_000).toFixed(0)} m`
+              : `${car.distance.toFixed(2)} km`;
 
-            return (
-              <TouchableOpacity
-                key={car.id}
-                className="flex-row items-center py-4 px-6"
-                onPress={() => onSelect(car, distanceStr)}
-              >
-                <Image
-                  className="h-20 w-28 mr-4 rounded-lg"
-                  resizeMode="contain"
-                  source={require('./logos/Zapp-auto-musta.png')}
-                />
-                <View className="flex-1">
-                  <Text className="text-lg font-medium">
-                    {car.dealership_id === 1 ? 'ZAPP ' : ''}
-                    {car.brand} {car.model}
+          return (
+            <TouchableOpacity
+              key={car.id}
+              className="flex-row items-center py-4 px-6"
+              onPress={() => onSelect(car, distanceStr)}
+            >
+              <Image
+                className="h-20 w-28 mr-4 rounded-lg"
+                resizeMode="contain"
+                source={require('./logos/Zapp-auto-musta.png')}
+              />
+              <View className="flex-1">
+                <Text className="text-lg font-medium">
+                  {car.dealership_id === 1 ? 'ZAPP ' : ''}
+                  {car.brand} {car.model}
+                </Text>
+                {car.dealership_id !== 1 && (
+                  <Text className="text-secondary">
+                    {dealerships.find((d) => d.id === car.dealership_id)?.name}
                   </Text>
-                  {car.dealership_id !== 1 && (
-                    <Text className="text-secondary">
-                      {
-                        dealerships.find((d) => d.id === car.dealership_id)
-                          ?.name
-                      }
-                    </Text>
-                  )}
-                  <Text>{distanceStr}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+                )}
+                <Text>{distanceStr}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </BottomSheetView>
     </BottomSheetModal>
   );
