@@ -4,19 +4,20 @@ import {useRoute, RouteProp, useNavigation} from '@react-navigation/native';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import MapView, {Polygon, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
-import {parkingZones} from '../components/parkingZones';
 import {
   AuthScreenNavigationProp,
   MainNavigationProp,
 } from '../types/navigationTypes';
 import HowToEndDriveModal from '../components/HowToEndDriveModal';
 import {Car} from '../types/car';
+import {useZappStore} from '../utils/store';
 
 type OnDriveRouteParams = {
   car: Car;
 };
 
 const OnDrive = () => {
+  const parkingZones = useZappStore((s) => s.zones);
   const route = useRoute<RouteProp<{params: OnDriveRouteParams}, 'params'>>();
   const [routeCoordinates, setRouteCoordinates] = useState<
     {latitude: number; longitude: number}[]
