@@ -16,6 +16,8 @@ type OnDriveRouteParams = {
   car: Car;
 };
 
+const imageBaseUrl = process.env.EXPO_PUBLIC_URL;
+
 const OnDrive = () => {
   const parkingZones = useZappStore((s) => s.zones);
   const route = useRoute<RouteProp<{params: OnDriveRouteParams}, 'params'>>();
@@ -176,9 +178,9 @@ const OnDrive = () => {
       <View className="relative flex-1 w-full h-full flex items-center bg-primary">
         {car.car_showcase_url ? (
           <Image
-            className="absolute -top-1/3 h-52 w-full"
+            className="absolute -top-1/4 h-40 w-full"
             resizeMode="contain"
-            source={{uri: car.car_showcase_url}}
+            source={{uri: imageBaseUrl + car.car_showcase_url}}
           />
         ) : (
           <Image
