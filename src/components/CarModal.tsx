@@ -13,6 +13,8 @@ type CarModalProps = {
   distanceToSelectedCar: string | null;
 };
 
+const imageBaseUrl = 'http://192.168.1.67:3000';
+
 export const CarModal = ({
   visible,
   setCarModalVisible,
@@ -88,7 +90,7 @@ export const CarModal = ({
                 <Image
                   className="h-52 w-full"
                   resizeMode="contain"
-                  source={{uri: selectedCar.car_showcase_url}}
+                  source={{uri: imageBaseUrl + selectedCar.car_showcase_url}}
                 />
               ) : (
                 <Text className="text-lg text-secondary">Ei kuvaa autost</Text>

@@ -13,6 +13,8 @@ interface Props {
   sheetRef: React.RefObject<BottomSheetModal | null>;
 }
 
+const imageBaseUrl = 'http://192.168.1.67:3000';
+
 const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
   const dealerships = useZappStore((s) => s.dealers);
   const sorted = useMemo(() => {
@@ -61,12 +63,15 @@ const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
             <TouchableOpacity
               key={car.id}
               className="flex-row items-center py-4 px-6"
-              onPress={() => onSelect(car, distanceStr)}
+              onPress={() => {
+                sheetRef.current?.snapToIndex(0);
+                onSelect(car, distanceStr);
+              }}
             >
               <Image
                 className="h-20 w-28 mr-4 rounded-lg"
                 resizeMode="contain"
-                source={require('./logos/Zapp-auto-musta.png')}
+                source={{uri: imageBaseUrl + car.car_showcase_url}}
               />
               <View className="flex-1">
                 <Text className="text-lg font-medium">
