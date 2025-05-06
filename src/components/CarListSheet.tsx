@@ -36,7 +36,7 @@ const CarListSheet = ({cars, userLocation, onSelect, sheetRef}: Props) => {
   return (
     <BottomSheetModal
       index={0}
-      snapPoints={['50%', '75%']}
+      snapPoints={['23%', '50%', '75%']}
       enablePanDownToClose={false}
       handleIndicatorStyle={{
         backgroundColor: '#007F5F',
