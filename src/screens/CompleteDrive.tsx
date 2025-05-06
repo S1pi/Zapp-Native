@@ -16,14 +16,15 @@ import CarPictureModal from '../components/CarPictureModal';
 import CustomButton from '../components/CustomButton';
 import {useDrive} from '../hooks/apiHooks';
 import {MainNavigationProp} from '../types/navigationTypes';
+import {Car} from '../types/car';
 
 type Side = 'front' | 'right' | 'left' | 'back';
-type Params = {driveId: number; endLocation: string};
+type Params = {driveId: number; car: Car; endLocation: string};
 
 export default function CompleteDrive() {
   const navigation = useNavigation<MainNavigationProp>();
   const route = useRoute<RouteProp<{params: Params}, 'params'>>();
-  const {driveId, endLocation} = route.params;
+  const {driveId, endLocation, car} = route.params;
 
   /* ------- state ------- */
   const [side, setSide] = useState<Side | null>(null);
@@ -73,7 +74,11 @@ export default function CompleteDrive() {
 
       navigation.navigate('AppStack', {
         screen: 'DriveSummary',
-        params: {duration: (res as any).duration, cost: (res as any).cost},
+        params: {
+          duration: (res as any).duration,
+          cost: (res as any).cost,
+          car: car,
+        },
       });
     } catch (e: any) {
       console.log('Lähetys epäonnistui', e);

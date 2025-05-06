@@ -1,36 +1,102 @@
-//Message, duration, cost tulee floattina
 import React, {useState} from 'react';
-import {SafeAreaView, Text, Button} from 'react-native';
+import {SafeAreaView, Text, View, TouchableOpacity, Image} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {MainNavigationProp} from '../types/navigationTypes';
 import {Car} from '../types/car';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomButton from '../components/CustomButton';
 
 type CompleteDriveParams = {
   car: Car;
+  duration: number;
+  cost: number;
 };
 
 const DriveSummary = () => {
   const route = useRoute<RouteProp<{params: CompleteDriveParams}, 'params'>>();
   const navigation = useNavigation<MainNavigationProp>();
 
-  const [userLocation, setUserLocation] = useState<{
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  } | null>(null);
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
-  const {car} = route.params;
+  const options = [
+    {label: 'Huono', icon: 'emoticon-sad-outline', value: 'bad'},
+    {label: 'Neutraali', icon: 'emoticon-neutral-outline', value: 'okay'},
+    {label: 'Hyvä', icon: 'emoticon-happy-outline', value: 'good'},
+  ];
+
+  const {car, duration, cost} = route.params;
+  const imageBaseUrl = process.env.EXPO_PUBLIC_URL;
 
   return (
     <SafeAreaView className="flex-1 bg-primary p-4">
-      <Text className="text-white text-2xl font-bold mb-4">
-        Drive Completed, with {car.brand} {car.model}
-      </Text>
-      <Text className="text-white text-lg mb-4">
-        You are in {userLocation?.latitude} {userLocation?.longitude}
-      </Text>
+      <View className="flex-1 items-center p-6">
+        <TouchableOpacity
+          className="absolute top-2 right-2 p-4"
+          onPress={() => navigation.navigate('App', {screen: 'Home'})}
+        >
+          <MaterialCommunityIcons name="close" size={30} color="black" />
+        </TouchableOpacity>
+
+        <Text className="text-xl font-semibold">Ajon yhteenveto</Text>
+
+        <View className="flex-1 w-full py-10 px-2">
+          <Text className="text-h3 font-semibold px-2 text-secondary">
+            Kiitos, että käytit Zappia!
+          </Text>
+
+          <View className="bg-grey/10 p-6 rounded-lg mt-10 flex gap-4 relative">
+            <Image
+              source={{uri: imageBaseUrl + car.car_showcase_url}}
+              className="absolute top-4 right-4 h-28 w-36"
+              resizeMode="contain"
+            />
+            <Text className="text-lg font-semibold text-black-zapp">
+              {car.brand} {car.model}
+            </Text>
+            <Text className="text-lg font-semibold text-black-zapp">
+              {car.license_plate}
+            </Text>
+            <Text className="text-lg font-semibold text-black-zapp">
+              {duration} min
+            </Text>
+
+            <View className="h-0.5 w-full bg-grey/50 rounded-full" />
+
+            <Text className="text-xl font-semibold text-black-zapp">
+              {cost.toFixed(2)} €
+            </Text>
+          </View>
+
+          <View className="p-10 mt-4 flex justify-center items-center">
+            <Text className="text-lg">Piditkö ajostasi?</Text>
+            <View className="flex-row my-6 justify-center">
+              {options.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  className="items-center mx-4"
+                  onPress={() => setSelectedIcon(option.value)}
+                >
+                  <MaterialCommunityIcons
+                    name={option.icon}
+                    size={40}
+                    color={selectedIcon === option.value ? '#FFD700' : 'gray'}
+                  />
+                  <Text className="mt-2">{option.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          <CustomButton
+            className="bg-secondary mx-auto mt-40"
+            onPress={() => navigation.navigate('App', {screen: 'Home'})}
+          >
+            <Text>Sulje</Text>
+          </CustomButton>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
+
 export default DriveSummary;

@@ -109,27 +109,33 @@ const OnDrive = () => {
     return inside;
   };
 
-  const centerToUser = async () => {
-    console.log('Centering to user location');
-    if (!userLocation) {
-      console.log('No user location available');
+  const navigation = useNavigation<MainNavigationProp>();
+
+  const handleEndDrive = async () => {
+    const {status} = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Location permission not granted');
       return;
     }
-    const {status} = await Location.requestForegroundPermissionsAsync();
-    if (status === 'granted') {
-      const location = await Location.getCurrentPositionAsync({});
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
-      setUserLocation(coords);
-      mapRef.current?.animateToRegion(coords);
+    const location = await Location.getCurrentPositionAsync({});
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    };
+    if (insideParkingZone) {
+      console.log(insideParkingZone);
+      navigation.replace('AppStack', {
+        screen: 'CompleteDrive',
+        params: {
+          driveId,
+          endLocation: `${coords.longitude},${coords.latitude}`,
+          car,
+        },
+      });
     }
   };
-
-  const navigation = useNavigation<MainNavigationProp>();
 
   return (
     <View className="flex flex-1 w-full h-full bg-secondary">
@@ -208,24 +214,7 @@ const OnDrive = () => {
             insideParkingZone ? 'bg-secondary' : 'bg-primary'
           }`}
           onPress={async () => {
-            const {status} = await Location.requestForegroundPermissionsAsync();
-            const location = await Location.getCurrentPositionAsync({});
-            const coords = {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            };
-            if (insideParkingZone) {
-              console.log(insideParkingZone);
-              navigation.navigate('AppStack', {
-                screen: 'CompleteDrive',
-                params: {
-                  driveId: Number(driveId),
-                  endLocation: `${coords.latitude},${coords.longitude}`,
-                },
-              });
-            }
+            handleEndDrive();
           }}
           disabled={!insideParkingZone}
         >
