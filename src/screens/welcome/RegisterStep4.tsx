@@ -57,7 +57,7 @@ const RegisterStep4 = () => {
 
     try {
       if (!data.frontImage || !data.backImage) {
-        console.error('Front or back image is missing');
+        console.log('Front or back image is missing');
         return;
       }
 
@@ -68,12 +68,12 @@ const RegisterStep4 = () => {
 
       console.log('Registration response:', response);
       if (!response) {
-        console.error('Registration failed');
+        console.log('Registration failed');
         return;
       }
       handleLogin(credentials);
     } catch (error) {
-      console.error('Error during registration:', error);
+      console.log('Error during registration:', error);
     }
   };
 

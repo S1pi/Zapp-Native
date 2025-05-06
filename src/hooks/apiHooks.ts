@@ -40,7 +40,7 @@ const UseUser = () => {
       );
       return response;
     } catch (error) {
-      console.error('Error during login:', error);
+      console.log('Error during login:', error);
       throw error;
     }
   };
@@ -60,7 +60,7 @@ const UseUser = () => {
       );
       return response;
     } catch (error) {
-      console.error('Error fetching user by token:', error);
+      console.log('Error fetching user by token:', error);
       throw error;
     }
   };
@@ -81,7 +81,7 @@ const UseUser = () => {
 
       return response;
     } catch (error) {
-      console.error('Error registering user:', error);
+      console.log('Error registering user:', error);
       throw error;
     }
   };
@@ -104,7 +104,7 @@ const UseUser = () => {
       );
       return response.available;
     } catch (error: any) {
-      console.error('Error checking availability: ', error);
+      console.log('Error checking availability: ', error);
       throw new Error(error);
     }
   };
@@ -127,7 +127,7 @@ const UseUser = () => {
       );
       return response;
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.log('Error updating user:', error);
       throw error;
     }
   };
@@ -158,7 +158,7 @@ const useMap = () => {
       );
       return response.cars;
     } catch (error) {
-      console.error('Error fetching cars:', error);
+      console.log('Error fetching cars:', error);
       throw error;
     }
   };
@@ -178,7 +178,7 @@ const useMap = () => {
       );
       return response.parkingZones;
     } catch (error) {
-      console.error('Error fetching parking zones:', error);
+      console.log('Error fetching parking zones:', error);
       throw error;
     }
   };
@@ -198,7 +198,7 @@ const useMap = () => {
       );
       return response.dealerships;
     } catch (error) {
-      console.error('Error fetching dealerships:', error);
+      console.log('Error fetching dealerships:', error);
       throw error;
     }
   };
@@ -206,7 +206,7 @@ const useMap = () => {
   // const setData = async () => {
   //   const token = await AsyncStorage.getItem('userToken');
   //   if (!token) {
-  //     console.error('Token not found');
+  //     console.log('Token not found');
   //     return;
   //   }
 
@@ -257,7 +257,7 @@ const useDrive = () => {
       console.log('response', response);
       return response.driveId;
     } catch (error) {
-      console.error('Error starting drive:', error);
+      console.log('Error starting drive:', error);
       throw error;
     }
   };
@@ -278,7 +278,7 @@ const useDrive = () => {
       );
       return response;
     } catch (error: any) {
-      console.error('Error ending drive:', error.message);
+      console.log('Error ending drive:', error.message);
       throw error;
     }
   };

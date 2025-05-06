@@ -69,7 +69,7 @@ export const CarModal = ({
   const handleStartDrive = async () => {
     const token = await AsyncStorage.getItem('userToken');
     if (!token) {
-      console.error('Token not found');
+      console.log('Token not found');
       return;
     }
     if (!selectedCar) return;
@@ -84,7 +84,7 @@ export const CarModal = ({
         params: {car: selectedCar, driveId: driveId},
       });
     } catch (error) {
-      console.error('Error starting drive:', error);
+      console.log('Error starting drive:', error);
     }
   };
 

@@ -24,26 +24,26 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
         credentials.password,
       );
       if (!response) {
-        console.error('Login failed');
+        console.log('Login failed');
         return;
       }
 
       const token = response.token;
       if (!token) {
-        console.error('Token not found in response');
+        console.log('Token not found in response');
         return;
       }
       AsyncStorage.setItem('userToken', token);
 
       const user = response.user;
       if (!user) {
-        console.error('User not found in response');
+        console.log('User not found in response');
         return;
       }
       console.log('User logged in:', user);
       setUser(user);
     } catch (error) {
-      console.error('Login error:', error);
+      console.log('Login error:', error);
     }
   };
 
@@ -57,7 +57,7 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
       setUser(response);
       return;
     } catch (error) {
-      console.error('Error updating userrrr:', error);
+      console.log('Error updating userrrr:', error);
       throw new Error('Error updating user');
     }
   };
@@ -71,12 +71,12 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
         const response = await getUserByToken(token);
         console.log('Response:', response);
         if (!response) {
-          console.error('Auto-login failed');
+          console.log('Auto-login failed');
           return;
         }
         const user = response.user;
         if (!user) {
-          console.error('User not found in response');
+          console.log('User not found in response');
           return;
         }
         console.log('User auto-logged in:', user);
@@ -85,7 +85,7 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
         console.log('No token found, user not logged in');
       }
     } catch (error) {
-      console.error('Auto-login error:', error);
+      console.log('Auto-login error:', error);
     }
   };
 
@@ -94,7 +94,7 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
       AsyncStorage.removeItem('userToken');
       setUser(null);
     } catch (error) {
-      console.error('Error removing user token:', error);
+      console.log('Error removing user token:', error);
     }
   };
 

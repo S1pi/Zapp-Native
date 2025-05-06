@@ -196,7 +196,7 @@ export const PictureTakingModal = ({
           }
         }
       } catch (error) {
-        console.error('Error taking picture:', error);
+        console.log('Error taking picture:', error);
       }
     }
   };
