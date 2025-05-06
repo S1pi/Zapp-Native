@@ -32,6 +32,7 @@ const OnDrive = () => {
     longitudeDelta: number;
   } | null>(null);
   const {car, driveId} = route.params;
+  console.log('driveId', driveId);
 
   const mapRef = useRef<MapView | null>(null);
   const [seconds, setSeconds] = useState(0);
@@ -204,12 +205,23 @@ const OnDrive = () => {
           className={`rounded-3xl p-5 w-3/4 my-5 items-center ${
             insideParkingZone ? 'bg-secondary' : 'bg-primary'
           }`}
-          onPress={() => {
+          onPress={async () => {
+            const {status} = await Location.requestForegroundPermissionsAsync();
+            const location = await Location.getCurrentPositionAsync({});
+            const coords = {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            };
             if (insideParkingZone) {
               console.log(insideParkingZone);
               navigation.navigate('AppStack', {
                 screen: 'CompleteDrive',
-                params: {car: car, driveId: driveId},
+                params: {
+                  driveId: Number(driveId),
+                  endLocation: `${coords.latitude},${coords.longitude}`,
+                },
               });
             }
           }}

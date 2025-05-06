@@ -254,7 +254,8 @@ const useDrive = () => {
         process.env.EXPO_PUBLIC_API + '/drive/start',
         options,
       );
-      return response.carId;
+      console.log('response', response);
+      return response.driveId;
     } catch (error) {
       console.error('Error starting drive:', error);
       throw error;
@@ -269,14 +270,15 @@ const useDrive = () => {
       },
       body: driveEndData,
     };
+    console.log('driveEndData', driveEndData);
     try {
       const response = await fetchData(
         process.env.EXPO_PUBLIC_API + '/drive/end',
         options,
       );
       return response;
-    } catch (error) {
-      console.error('Error ending drive:', error);
+    } catch (error: any) {
+      console.error('Error ending drive:', error.message);
       throw error;
     }
   };

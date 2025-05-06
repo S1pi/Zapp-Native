@@ -77,6 +77,7 @@ export const CarModal = ({
     if (status !== 'granted') return;
     try {
       const driveId = await startDrive(selectedCar.id, token);
+      console.log('Drive started with ID:', driveId);
       setCarModalVisible(false);
       navigation.navigate('AppStack', {
         screen: 'OnDrive',

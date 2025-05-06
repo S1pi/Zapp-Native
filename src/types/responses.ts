@@ -35,5 +35,5 @@ export type DealerShipsResponse = {
 
 export type DriveStartResponse = {
   message: string;
-  carId: number;
+  driveId: number;
 };
