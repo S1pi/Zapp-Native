@@ -24,6 +24,7 @@ export type AppNavigationParamList = {
   OnDrive: {car: Car};
   CompleteDrive: {car: Car};
   DriveSummary: {car: Car};
+  Home: undefined;
 };
 
 export type TabScreenParamList = {

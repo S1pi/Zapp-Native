@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView, Text, Button} from 'react-native';
+import {SafeAreaView, Text, Button, TouchableOpacity} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {MainNavigationProp} from '../types/navigationTypes';
 import {Car} from '../types/car';
@@ -29,6 +29,15 @@ const CompleteDrive = () => {
       <Text className="text-white text-lg mb-4">
         You are in {userLocation?.latitude} {userLocation?.longitude}
       </Text>
+      <TouchableOpacity
+        className="bg-flame p-4 rounded-lg"
+        onPress={() =>
+          navigation.navigate('AppStack', {
+            screen: 'DriveSummary',
+            params: {car},
+          })
+        }
+      ></TouchableOpacity>
     </SafeAreaView>
   );
 };
